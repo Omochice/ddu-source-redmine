@@ -7,13 +7,10 @@ import {
 import { Denops } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { listIssues } from "https://deno.land/x/deno_redmine@0.6.0/issues/list.ts";
 import type { Issue } from "https://deno.land/x/deno_redmine@0.6.0/issues/type.ts";
+import type { Context } from "https://deno.land/x/deno_redmine@0.6.0/context.ts";
+import type { ActionData } from "../@ddu-kinds/redmine_issue.ts";
 
-type ActionData = Record<PropertyKey, never>;
-
-type Params = {
-  endpoint: string;
-  apiKey: string;
-};
+type Params = Context;
 
 export class Source extends BaseSource<Params> {
   kind = "redmine_issue";
@@ -37,7 +34,9 @@ export class Source extends BaseSource<Params> {
           controller.close();
           return;
         }
-        controller.enqueue(issues.value.map(convertToItem));
+        controller.enqueue(
+          issues.value.map((issue) => convertToItem(issue, connectionContext)),
+        );
 
         controller.close();
       },
@@ -52,8 +51,12 @@ export class Source extends BaseSource<Params> {
   }
 }
 
-function convertToItem(issue: Issue): Item<ActionData> {
+function convertToItem(issue: Issue, context: Context): Item<ActionData> {
   return {
     word: `#${issue.id} ${issue.subject}`,
+    action: {
+      ...context,
+      description: issue.description,
+    },
   };
 }
