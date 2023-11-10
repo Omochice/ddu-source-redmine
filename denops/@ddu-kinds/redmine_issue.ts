@@ -16,6 +16,13 @@ export type ActionData = ConnectionContext & Pick<Issue, "description">;
 
 type Params = Record<PropertyKey, never>;
 
+const hasDescription = is.ObjectOf({
+  description: is.OneOf([
+    is.String,
+    is.Undefined,
+  ]),
+});
+
 const actions: Actions<Params> = {
   note: async (args: {
     denops: Denops;
@@ -37,11 +44,7 @@ export class Kind extends BaseKind<Params> {
   override async getPreviewer(
     args: { item: DduItem },
   ): Promise<NoFilePreviewer | undefined> {
-    if (
-      !is.ObjectOf({ description: is.OneOf([is.String, is.Undefined]) })(
-        args.item.action,
-      )
-    ) {
+    if (!hasDescription(args.item.action)) {
       return await Promise.resolve(undefined);
     }
 
