@@ -105,7 +105,7 @@ const actions: Actions<Params> = {
       denops,
       "BufWinLeave",
       bufname,
-      `call denops#request('${denops.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+      `call denops#notify('${denops.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
       {
         once: true,
       },
