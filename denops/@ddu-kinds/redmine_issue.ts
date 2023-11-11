@@ -9,23 +9,29 @@ import {
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import type { Context as ConnectionContext } from "https://deno.land/x/deno_redmine@0.6.0/context.ts";
 import type { Issue } from "https://deno.land/x/deno_redmine@0.6.0/issues/type.ts";
+import { update } from "https://deno.land/x/deno_redmine@0.6.0/issues/update.ts";
 import {
+  assert,
   is,
   PredicateType,
 } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
-import { stringify } from "https://deno.land/std@0.200.0/toml/mod.ts";
+import { parse, stringify } from "https://deno.land/std@0.206.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
+import { echoerr } from "https://deno.land/x/denops_std@v5.0.2/helper/mod.ts";
+import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
 
 export type ActionData = ConnectionContext & Pick<Issue, "description" | "id">;
 
 type Params = Record<PropertyKey, never>;
 
-const hasDescription = is.ObjectOf({
+const isIssue = is.ObjectOf({
   id: is.Number,
   description: is.OneOf([
     is.String,
     is.Undefined,
   ]),
+  endpoint: is.String,
+  apiKey: is.String,
 });
 
 const isNotes = is.ObjectOf({
@@ -55,17 +61,16 @@ const actions: Actions<Params> = {
     }
 
     const issue = items[0]?.action;
-    if (!hasDescription(issue)) {
+    if (!isIssue(issue)) {
       return ActionFlags.None;
     }
 
-    // create empty buffer
-    const bufname = `ddu-source-redmine_${issue.id}`;
+    const bufname = `ddu-source-redmine_#${issue.id}`;
     const bufnr = await fn.bufadd(denops, bufname);
     await fn.bufload(denops, bufnr);
     await fn.setbufvar(denops, bufnr, "&buftype", "nofile");
     await fn.setbufvar(denops, bufnr, "&bufhidden", "delete");
-    await fn.setbufvar(denops, bufnr, "&swapfile", 0);
+    await fn.setbufvar(denops, bufnr, "&swapfile", false);
     await fn.deletebufline(denops, bufnr, 1, "$");
     await fn.setbufline(
       denops,
@@ -74,13 +79,38 @@ const actions: Actions<Params> = {
       stringify(noteTemplate).trim().split(/\r?\n/),
     );
 
-    // set event
-    await define(denops, "BufDelete", `${bufnr}`, "echo 'hi'", {
-      once: true,
-    });
+    const id = register(denops, async (lines: unknown) => {
+      assert(lines, is.ArrayOf(is.String));
+      try {
+        const note = parse(lines.join("\n"));
+        if (!isNotes(note)) {
+          await echoerr(denops, "Schema is not matched");
+          return;
+        }
+        await update(
+          issue.id,
+          convertNote(note),
+          issue,
+        );
+      } catch {
+        await echoerr(
+          denops,
+          `Content is invalid toml format: ${lines.join("\n")}`,
+        );
+      }
+    }, { once: true });
 
-    // TODO: open buffer with close action
     await args.denops.cmd(`tabedit +buffer${bufnr}`);
+    await define(
+      denops,
+      "BufWinLeave",
+      bufname,
+      `call denops#request('${denops.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+      {
+        once: true,
+      },
+    );
+
     return ActionFlags.None;
   },
 };
@@ -90,7 +120,7 @@ export class Kind extends BaseKind<Params> {
   override async getPreviewer(
     args: { item: DduItem },
   ): Promise<NoFilePreviewer | undefined> {
-    if (!hasDescription(args.item.action)) {
+    if (!isIssue(args.item.action)) {
       return await Promise.resolve(undefined);
     }
 
