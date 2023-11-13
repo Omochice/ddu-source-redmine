@@ -9,7 +9,7 @@ import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.0.2/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
 import { type BufferOption, prepareBuffer } from "../prepare-buffer.ts";
-import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.6.0/issues/update.ts";
+import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isIssue } from "../type.ts";
 import { assert, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 
@@ -17,6 +17,7 @@ const bufopts: BufferOption = {
   buftype: "nofile",
   bufhidden: "delete",
   swapfile: false,
+  filetype: "toml",
 } as const;
 
 export async function update(args: {

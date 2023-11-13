@@ -22,6 +22,7 @@ export type BufferOption = {
   buftype?: BufType;
   bufhidden?: BufHidden;
   swapfile?: boolean;
+  filetype?: string;
 };
 
 export async function prepareBuffer(
@@ -34,6 +35,9 @@ export async function prepareBuffer(
   await fn.setbufvar(denops, bufnr, "&buftype", opts?.buftype ?? "");
   await fn.setbufvar(denops, bufnr, "&bufhidden", opts?.bufhidden ?? "");
   await fn.setbufvar(denops, bufnr, "&swapfile", opts?.swapfile ?? false);
+  if (opts?.filetype !== undefined) {
+    await fn.setbufvar(denops, bufnr, "&filetype", opts.filetype);
+  }
   await fn.deletebufline(denops, bufnr, 1, "$");
 
   return bufnr;
