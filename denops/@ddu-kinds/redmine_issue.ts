@@ -4,11 +4,12 @@ import {
   DduItem,
   NoFilePreviewer,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
-import type { Context as ConnectionContext } from "https://deno.land/x/deno_redmine@0.6.0/context.ts";
-import type { Issue } from "https://deno.land/x/deno_redmine@0.6.0/issues/type.ts";
+import type { Context as ConnectionContext } from "https://deno.land/x/deno_redmine@0.7.0/context.ts";
+import type { Issue } from "https://deno.land/x/deno_redmine@0.7.0/issues/type.ts";
 import { is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
+import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
 
 export const kindName = "redmine_issue" as const;
 
@@ -29,6 +30,7 @@ const isIssue = is.ObjectOf({
 const actions: Actions<Params> = {
   note,
   update,
+  updateDescription,
 };
 
 export class Kind extends BaseKind<Params> {
