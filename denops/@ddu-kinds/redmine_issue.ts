@@ -10,6 +10,8 @@ import { is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 
+export const kindName = "redmine_issue" as const;
+
 export type ActionData = ConnectionContext & Pick<Issue, "description" | "id">;
 
 type Params = Record<PropertyKey, never>;

@@ -8,12 +8,12 @@ import { Denops } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { listIssues } from "https://deno.land/x/deno_redmine@0.6.0/issues/list.ts";
 import type { Issue } from "https://deno.land/x/deno_redmine@0.6.0/issues/type.ts";
 import type { Context } from "https://deno.land/x/deno_redmine@0.6.0/context.ts";
-import type { ActionData } from "../@ddu-kinds/redmine_issue.ts";
+import { type ActionData, kindName } from "../@ddu-kinds/redmine_issue.ts";
 
 type Params = Context;
 
 export class Source extends BaseSource<Params> {
-  kind = "redmine_issue";
+  kind = kindName;
 
   gather(args: {
     denops: Denops;
