@@ -6,7 +6,7 @@ import {
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
-import { type BufferOption, prepareBuffer } from "../prepare-buffer.ts";
+import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isIssue } from "../type.ts";
 import { assert, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";

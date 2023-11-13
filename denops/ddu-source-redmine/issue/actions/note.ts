@@ -8,7 +8,7 @@ import { parse, stringify } from "https://deno.land/std@0.206.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.0.2/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
-import { type BufferOption, prepareBuffer } from "../prepare-buffer.ts";
+import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
 import { update } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import {
   assert,
