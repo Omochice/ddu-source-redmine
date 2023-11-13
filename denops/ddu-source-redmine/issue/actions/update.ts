@@ -34,7 +34,7 @@ export async function update(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `ddu-source-redmine_#${issue.id}`;
+  const bufname = `ddu-source-redmine_#${issue.id}-update`;
   const bufnr = await prepareBuffer(denops, bufname, bufopts);
   await fn.setbufline(
     denops,
