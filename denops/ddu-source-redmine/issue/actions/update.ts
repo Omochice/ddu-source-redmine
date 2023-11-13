@@ -4,18 +4,14 @@ import {
   DduItem,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
-import { parse, stringify } from "https://deno.land/std@0.206.0/toml/mod.ts";
+import { parse } from "https://deno.land/std@0.206.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.0.2/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
 import { type BufferOption, prepareBuffer } from "../prepare-buffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.6.0/issues/update.ts";
 import { isIssue } from "../type.ts";
-import {
-  assert,
-  is,
-  PredicateType,
-} from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
+import { assert, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 
 const bufopts: BufferOption = {
   buftype: "nofile",
@@ -51,10 +47,6 @@ export async function update(args: {
     assert(lines, is.ArrayOf(is.String));
     try {
       const content = parse(lines.join("\n"));
-      // if (!isNotes(note)) {
-      //   await echoerr(denops, "Schema is not matched");
-      //   return;
-      // }
       await updateIssue(
         issue.id,
         content,
