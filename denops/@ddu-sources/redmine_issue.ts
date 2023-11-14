@@ -58,8 +58,7 @@ function convertToItem(issue: Issue, context: Context): Item<ActionData> {
     word: `#${issue.id} ${issue.subject}`,
     action: {
       ...context,
-      id: issue.id,
-      description: issue.description,
+      issue,
     },
   };
 }

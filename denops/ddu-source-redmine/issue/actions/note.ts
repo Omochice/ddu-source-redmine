@@ -15,7 +15,7 @@ import {
   is,
   PredicateType,
 } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
-import { isIssue } from "../type.ts";
+import { isItem } from "../type.ts";
 
 const isNotes = is.ObjectOf({
   notes: is.String,
@@ -49,12 +49,12 @@ export async function note(args: {
     return ActionFlags.Persist;
   }
 
-  const issue = items[0]?.action;
-  if (!isIssue(issue)) {
+  const item = items[0]?.action;
+  if (!isItem(item)) {
     return ActionFlags.None;
   }
 
-  const bufname = `ddu-source-redmine_#${issue.id}-note`;
+  const bufname = `ddu-source-redmine_#${item.issue.id}-note`;
   const bufnr = await prepareBuffer(denops, bufname, bufopts);
 
   await fn.setbufline(
@@ -73,9 +73,9 @@ export async function note(args: {
         return;
       }
       await update(
-        issue.id,
+        item.issue.id,
         convertNote(note),
-        issue,
+        item,
       );
     } catch {
       await echoerr(

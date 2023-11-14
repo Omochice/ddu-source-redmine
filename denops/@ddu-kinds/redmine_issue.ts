@@ -4,28 +4,16 @@ import {
   DduItem,
   NoFilePreviewer,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
-import type { Context as ConnectionContext } from "https://deno.land/x/deno_redmine@0.7.0/context.ts";
-import type { Issue } from "https://deno.land/x/deno_redmine@0.7.0/issues/type.ts";
-import { is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
+import { isItem, type Item } from "../ddu-source-redmine/issue/type.ts";
 
 export const kindName = "redmine_issue" as const;
 
-export type ActionData = ConnectionContext & Pick<Issue, "description" | "id">;
+export type ActionData = Item;
 
 type Params = Record<PropertyKey, never>;
-
-const isIssue = is.ObjectOf({
-  id: is.Number,
-  description: is.OneOf([
-    is.String,
-    is.Undefined,
-  ]),
-  endpoint: is.String,
-  apiKey: is.String,
-});
 
 const actions: Actions<Params> = {
   note,
@@ -38,11 +26,11 @@ export class Kind extends BaseKind<Params> {
   override async getPreviewer(
     args: { item: DduItem },
   ): Promise<NoFilePreviewer | undefined> {
-    if (!isIssue(args.item.action)) {
+    if (!isItem(args.item.action)) {
       return await Promise.resolve(undefined);
     }
 
-    const description = (args.item.action.description ?? "").trim();
+    const description = (args.item.action.issue.description ?? "").trim();
     return await Promise.resolve({
       kind: "nofile",
       contents: description === ""
