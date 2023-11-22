@@ -10,6 +10,7 @@ import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
 import { assert, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
+import { getEditCommand } from "../getEditCommand.ts";
 
 const bufopts: BufferOption = {
   buftype: "nofile",
@@ -21,6 +22,8 @@ const bufopts: BufferOption = {
 export async function updateDescription(args: {
   denops: Denops;
   context: Context;
+  actionParams: unknown;
+  kindParams: unknown;
   items: DduItem[];
 }) {
   const { denops, items } = args;
@@ -51,7 +54,9 @@ export async function updateDescription(args: {
     );
   }, { once: true });
 
-  await args.denops.cmd(`tabedit +buffer${bufnr}`);
+  const command = getEditCommand(args.actionParams, args.kindParams);
+
+  await args.denops.cmd(`${command} +buffer${bufnr}`);
   await define(
     denops,
     "BufWinLeave",

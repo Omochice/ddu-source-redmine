@@ -16,3 +16,7 @@ export const isItem = is.ObjectOf({
 });
 
 export type Item = PredicateType<typeof isItem>;
+
+export const mayHasCommand = is.ObjectOf({
+  command: is.OptionalOf(is.String),
+});

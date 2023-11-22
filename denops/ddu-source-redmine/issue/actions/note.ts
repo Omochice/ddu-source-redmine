@@ -16,6 +16,7 @@ import {
   PredicateType,
 } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
 import { isItem } from "../type.ts";
+import { getEditCommand } from "../getEditCommand.ts";
 
 const isNotes = is.ObjectOf({
   notes: is.String,
@@ -42,6 +43,8 @@ const bufopts: BufferOption = {
 export async function note(args: {
   denops: Denops;
   context: Context;
+  kindParams: unknown;
+  actionParams: unknown;
   items: DduItem[];
 }): Promise<ActionFlags> {
   const { denops, items } = args;
@@ -85,7 +88,10 @@ export async function note(args: {
     }
   }, { once: true });
 
-  await args.denops.cmd(`tabedit +buffer${bufnr}`);
+  const command = getEditCommand(args.actionParams, args.kindParams);
+  console.log(args)
+
+  await args.denops.cmd(`${command} +buffer${bufnr}`);
   await define(
     denops,
     "BufWinLeave",
