@@ -57,7 +57,7 @@ export async function openBrowser(args: {
 
   const userCommand = getBrowserCommand(actionParams, kindParams);
   if (userCommand !== undefined) {
-    await denops.call(userCommand, url);
+    await denops.call(userCommand, url.href);
     return ActionFlags.None;
   }
 
