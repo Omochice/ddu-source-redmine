@@ -7,6 +7,7 @@ import {
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
+import { openBrowser } from "../ddu-source-redmine/issue/actions/open.ts";
 import { isItem, type Item } from "../ddu-source-redmine/issue/type.ts";
 
 export const kindName = "redmine_issue" as const;
@@ -19,6 +20,7 @@ const actions: Actions<Params> = {
   note,
   update,
   updateDescription,
+  openBrowser,
 };
 
 export class Kind extends BaseKind<Params> {
