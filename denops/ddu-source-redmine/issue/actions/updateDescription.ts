@@ -24,7 +24,7 @@ export async function updateDescription(args: {
   kindParams: unknown;
   items: DduItem[];
 }) {
-  const { denops, items } = args;
+  const { denops, items, kindParams, actionParams } = args;
   if (items.length !== 1) {
     return ActionFlags.Persist;
   }
@@ -52,9 +52,9 @@ export async function updateDescription(args: {
     );
   }, { once: true });
 
-  const command = getEditCommand(args.actionParams, args.kindParams);
+  const command = getEditCommand(actionParams, kindParams);
 
-  await args.denops.cmd(`${command} +buffer${bufnr}`);
+  await denops.cmd(`${command} +buffer${bufnr}`);
   await define(
     denops,
     "BufWinLeave",

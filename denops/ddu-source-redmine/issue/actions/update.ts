@@ -26,7 +26,7 @@ export async function update(args: {
   kindParams: unknown;
   items: DduItem[];
 }): Promise<ActionFlags> {
-  const { denops, items } = args;
+  const { denops, items, kindParams, actionParams } = args;
   if (items.length !== 1) {
     return ActionFlags.Persist;
   }
@@ -67,9 +67,9 @@ export async function update(args: {
     }
   }, { once: true });
 
-  const command = getEditCommand(args.actionParams, args.kindParams);
+  const command = getEditCommand(actionParams, kindParams);
 
-  await args.denops.cmd(`${command} +buffer${bufnr}`);
+  await denops.cmd(`${command} +buffer${bufnr}`);
   await define(
     denops,
     "BufWinLeave",
