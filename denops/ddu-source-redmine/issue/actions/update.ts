@@ -1,6 +1,5 @@
 import {
   ActionFlags,
-  Context,
   DduItem,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
@@ -23,7 +22,6 @@ const bufopts: BufferOption = {
 
 export async function update(args: {
   denops: Denops;
-  context: Context;
   actionParams: unknown;
   kindParams: unknown;
   items: DduItem[];
