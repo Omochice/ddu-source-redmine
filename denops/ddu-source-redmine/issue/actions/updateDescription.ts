@@ -8,7 +8,7 @@ import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
 import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
-import { assert, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
+import { assert, is } from "https://deno.land/x/unknownutil@v3.11.0/mod.ts";
 import { getEditCommand } from "../getEditCommand.ts";
 
 const bufopts: BufferOption = {
