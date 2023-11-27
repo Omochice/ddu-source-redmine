@@ -5,7 +5,7 @@ import {
 import { Denops } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
 import { isItem, type Item } from "../type.ts";
 import { join } from "https://deno.land/std@0.208.0/url/join.ts";
-import { ensure, is } from "https://deno.land/x/unknownutil@v3.10.0/mod.ts";
+import { ensure, is } from "https://deno.land/x/unknownutil@v3.11.0/mod.ts";
 
 const mayHasBrowserCommand = is.ObjectOf({
   browserCommand: is.OptionalOf(is.String),
