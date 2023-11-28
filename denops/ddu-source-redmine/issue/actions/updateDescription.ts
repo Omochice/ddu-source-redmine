@@ -3,8 +3,8 @@ import {
   DduItem,
 } from "https://deno.land/x/ddu_vim@v3.6.0/types.ts";
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.6.0/deps.ts";
-import { define } from "https://deno.land/x/denops_std@v5.0.2/autocmd/mod.ts";
-import { register } from "https://deno.land/x/denops_std@v5.0.2/lambda/mod.ts";
+import { define } from "https://deno.land/x/denops_std@v5.1.0/autocmd/mod.ts";
+import { register } from "https://deno.land/x/denops_std@v5.1.0/lambda/mod.ts";
 import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
