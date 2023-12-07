@@ -1,4 +1,5 @@
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.8.1/deps.ts";
+import { define } from "https://deno.land/x/denops_std@v5.1.0/autocmd/mod.ts";
 
 type BufType =
   | ""
@@ -18,14 +19,13 @@ type BufHidden =
   | "delete"
   | "wipe";
 
-export type BufferOption = {
+type BufferOption = {
   buftype?: BufType;
   bufhidden?: BufHidden;
   swapfile?: boolean;
-  filetype?: string;
 };
 
-export async function prepareBuffer(
+async function prepareBuffer(
   denops: Denops,
   bufname: string,
   opts?: BufferOption,
@@ -35,10 +35,27 @@ export async function prepareBuffer(
   await fn.setbufvar(denops, bufnr, "&buftype", opts?.buftype ?? "");
   await fn.setbufvar(denops, bufnr, "&bufhidden", opts?.bufhidden ?? "");
   await fn.setbufvar(denops, bufnr, "&swapfile", opts?.swapfile ?? false);
-  if (opts?.filetype !== undefined) {
-    await fn.setbufvar(denops, bufnr, "&filetype", opts.filetype);
-  }
   await fn.deletebufline(denops, bufnr, 1, "$");
+  return bufnr;
+}
 
+export async function prepareUnwritableBuffer(
+  denops: Denops,
+  bufname: string,
+): Promise<number> {
+  const bufnr = await prepareBuffer(denops, bufname, {
+    buftype: "acwrite",
+    bufhidden: "delete",
+    swapfile: false,
+  });
+  await define(
+    denops,
+    "BufWriteCmd",
+    bufname,
+    `call setbufvar(${bufnr}, '&modified', 0)`,
+    {
+      nested: true,
+    },
+  );
   return bufnr;
 }

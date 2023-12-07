@@ -5,18 +5,11 @@ import {
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.8.1/deps.ts";
 import { define } from "https://deno.land/x/denops_std@v5.1.0/autocmd/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.1.0/lambda/mod.ts";
-import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
+import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
 import { assert, is } from "https://deno.land/x/unknownutil@v3.11.0/mod.ts";
 import { getEditCommand } from "../getEditCommand.ts";
-
-const bufopts: BufferOption = {
-  buftype: "nofile",
-  bufhidden: "delete",
-  swapfile: false,
-  filetype: "markdown",
-} as const;
 
 export async function updateDescription(args: {
   denops: Denops;
@@ -35,13 +28,15 @@ export async function updateDescription(args: {
   }
 
   const bufname = `ddu-source-redmine_#${item.issue.id}-description`;
-  const bufnr = await prepareBuffer(denops, bufname, bufopts);
+  const bufnr = await prepareUnwritableBuffer(denops, bufname);
   await fn.setbufline(
     denops,
     bufnr,
     1,
     (item.issue.description ?? "").split(/\r?\n/),
   );
+  await fn.setbufvar(denops, bufnr, "&filetype", "markdown");
+  await fn.setbufvar(denops, bufnr, "&modified", false);
 
   const id = register(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));

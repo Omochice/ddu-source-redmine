@@ -7,7 +7,7 @@ import { parse, stringify } from "https://deno.land/std@0.208.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.1.0/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.1.0/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.1.0/lambda/mod.ts";
-import { type BufferOption, prepareBuffer } from "../prepareBuffer.ts";
+import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import {
   assert,
@@ -32,13 +32,6 @@ const convertNote = (note: Note): Required<Note> => {
 
 const noteTemplate = { notes: "", private_notes: false };
 
-const bufopts: BufferOption = {
-  buftype: "nofile",
-  bufhidden: "delete",
-  swapfile: false,
-  filetype: "toml",
-} as const;
-
 export async function note(args: {
   denops: Denops;
   kindParams: unknown;
@@ -56,7 +49,7 @@ export async function note(args: {
   }
 
   const bufname = `ddu-source-redmine_#${item.issue.id}-note`;
-  const bufnr = await prepareBuffer(denops, bufname, bufopts);
+  const bufnr = await prepareUnwritableBuffer(denops, bufname);
 
   await fn.setbufline(
     denops,
@@ -64,6 +57,8 @@ export async function note(args: {
     1,
     stringify(noteTemplate).trim().split(/\r?\n/),
   );
+  await fn.setbufvar(denops, bufnr, "&filetype", "toml");
+  await fn.setbufvar(denops, bufnr, "&modified", false);
 
   const id = register(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));
@@ -98,6 +93,5 @@ export async function note(args: {
       once: true,
     },
   );
-
   return ActionFlags.None;
 }
