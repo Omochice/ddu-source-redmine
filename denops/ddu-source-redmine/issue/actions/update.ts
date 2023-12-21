@@ -29,7 +29,7 @@ export async function update(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `ddu-source-redmine_#${item.issue.id}-update`;
+  const bufname = `redmine:///update#${item.issue.id}`;
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
   try {
     await fn.setbufline(

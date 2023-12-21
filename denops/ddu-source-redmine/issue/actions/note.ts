@@ -48,7 +48,7 @@ export async function note(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `ddu-source-redmine_#${item.issue.id}-note`;
+  const bufname = `redmine:///note#${item.issue.id}`;
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
 
   await fn.setbufline(

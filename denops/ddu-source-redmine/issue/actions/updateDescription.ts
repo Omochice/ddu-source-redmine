@@ -27,7 +27,7 @@ export async function updateDescription(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `ddu-source-redmine_#${item.issue.id}-description`;
+  const bufname = `redmine:///description#${item.issue.id}`;
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
   await fn.setbufline(
     denops,
