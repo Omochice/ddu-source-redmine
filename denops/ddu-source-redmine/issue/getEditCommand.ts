@@ -1,4 +1,4 @@
-import { ensure } from "https://deno.land/x/unknownutil@v3.13.0/mod.ts";
+import { ensure } from "https://deno.land/x/unknownutil@v3.14.1/mod.ts";
 import { mayHasCommand } from "./type.ts";
 
 /**

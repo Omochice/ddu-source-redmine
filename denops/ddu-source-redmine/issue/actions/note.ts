@@ -13,7 +13,7 @@ import {
   assert,
   is,
   PredicateType,
-} from "https://deno.land/x/unknownutil@v3.13.0/mod.ts";
+} from "https://deno.land/x/unknownutil@v3.14.1/mod.ts";
 import { isItem } from "../type.ts";
 import { getEditCommand } from "../getEditCommand.ts";
 
