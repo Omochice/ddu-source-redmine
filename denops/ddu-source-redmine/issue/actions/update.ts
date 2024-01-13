@@ -3,7 +3,7 @@ import {
   DduItem,
 } from "https://deno.land/x/ddu_vim@v3.9.0/types.ts";
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.9.0/deps.ts";
-import { parse, stringify } from "https://deno.land/std@0.211.0/toml/mod.ts";
+import { parse, stringify } from "https://deno.land/std@0.212.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.2.0/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.2.0/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.2.0/lambda/mod.ts";
