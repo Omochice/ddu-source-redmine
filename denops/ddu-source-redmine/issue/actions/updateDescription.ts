@@ -1,8 +1,8 @@
 import {
   ActionFlags,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v3.9.0/types.ts";
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.9.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v3.10.0/types.ts";
+import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.10.0/deps.ts";
 import { define } from "https://deno.land/x/denops_std@v5.2.0/autocmd/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v5.2.0/lambda/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
