@@ -3,7 +3,7 @@ import {
   BaseKind,
   DduItem,
   NoFilePreviewer,
-} from "https://deno.land/x/ddu_vim@v3.9.0/types.ts";
+} from "https://deno.land/x/ddu_vim@v3.10.0/types.ts";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
