@@ -1,8 +1,8 @@
 import {
   ActionFlags,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v3.10.0/types.ts";
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.10.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v3.10.1/types.ts";
+import { Denops, fn } from "https://deno.land/x/ddu_vim@v3.10.1/deps.ts";
 import { parse, stringify } from "https://deno.land/std@0.213.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v5.3.0/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v5.3.0/helper/mod.ts";
