@@ -4,7 +4,7 @@ import {
 } from "https://deno.land/x/ddu_vim@v3.10.2/types.ts";
 import { Denops } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
 import { isItem, type Item } from "../type.ts";
-import { join } from "https://deno.land/std@0.216.0/url/join.ts";
+import { join } from "https://deno.land/std@0.218.2/url/join.ts";
 import { systemopen } from "https://deno.land/x/systemopen@v0.2.0/mod.ts";
 
 function issueUrl(issueItem: Item): URL {
