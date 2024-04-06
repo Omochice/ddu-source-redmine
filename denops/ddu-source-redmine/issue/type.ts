@@ -1,7 +1,7 @@
 import {
   is,
   PredicateType,
-} from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
+} from "https://deno.land/x/unknownutil@v3.17.2/mod.ts";
 
 export const isItem = is.ObjectOf({
   issue: is.ObjectOf({
