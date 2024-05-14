@@ -1,5 +1,5 @@
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v4.0.0/deps.ts";
-import { define } from "https://deno.land/x/denops_std@v6.4.2/autocmd/mod.ts";
+import { define } from "https://deno.land/x/denops_std@v6.4.3/autocmd/mod.ts";
 
 type BufType =
   | ""
