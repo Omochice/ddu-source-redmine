@@ -10,7 +10,7 @@ import { register } from "https://deno.land/x/denops_std@v6.4.3/lambda/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
-import { assert, is } from "https://deno.land/x/unknownutil@v3.18.0/mod.ts";
+import { assert, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 import { getEditCommand } from "../getEditCommand.ts";
 
 export async function update(args: {
