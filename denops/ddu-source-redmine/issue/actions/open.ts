@@ -1,8 +1,8 @@
 import {
   ActionFlags,
   DduItem,
-} from "https://deno.land/x/ddu_vim@v4.0.0/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v4.0.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v4.1.0/types.ts";
+import { Denops } from "https://deno.land/x/ddu_vim@v4.1.0/deps.ts";
 import { isItem, type Item } from "../type.ts";
 import { join } from "https://deno.land/std@0.224.0/url/join.ts";
 import { systemopen } from "https://deno.land/x/systemopen@v1.0.0/mod.ts";
