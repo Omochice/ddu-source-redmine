@@ -8,6 +8,10 @@ import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v6.5.1/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v6.5.1/lambda/mod.ts";
 import { format } from "https://deno.land/x/denops_std@v6.5.1/bufname/mod.ts";
+import {
+  filetype,
+  modified,
+} from "https://deno.land/x/denops_std@v6.5.1/option/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
@@ -43,8 +47,8 @@ export async function update(args: {
       1,
       stringify(item.issue).split(/\r?\n/),
     );
-    await fn.setbufvar(denops, bufnr, "&filetype", "toml");
-    await fn.setbufvar(denops, bufnr, "&modified", false);
+    await filetype.setBuffer(denops, bufnr, "toml");
+    await modified.setBuffer(denops, bufnr, false);
   } catch {
     echoerr(denops, "Convert Error: the issue cannot convert to toml format");
     return ActionFlags.None;
