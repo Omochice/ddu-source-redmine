@@ -1,16 +1,20 @@
 import {
   is,
-  PredicateType,
+  type PredicateType,
 } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 
-export type Project = {
-  id: number;
-  name: string;
-  children?: Project[];
-};
+const isProject = is.ObjectOf({
+  id: is.Number,
+  name: is.String,
+  description: is.String,
+});
 
-export type Item = {
-  endpoint: string;
-  apiKey: string;
-  project: Project;
-};
+export type Project = PredicateType<typeof isProject>;
+
+export const isItem = is.ObjectOf({
+  endpoint: is.String,
+  apiKey: is.String,
+  project: isProject,
+});
+
+export type Item = PredicateType<typeof isItem>;
