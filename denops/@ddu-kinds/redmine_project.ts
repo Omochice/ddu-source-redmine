@@ -9,7 +9,7 @@ import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
 import { openBrowser } from "../ddu-source-redmine/issue/actions/open.ts";
-import { type Item } from "../ddu-source-redmine/project/type.ts";
+import { isItem, type Item } from "../ddu-source-redmine/project/type.ts";
 
 export const kindName = "redmine_project" as const;
 
@@ -29,10 +29,13 @@ export class Kind extends BaseKind<Params> {
   override getPreviewer = async (
     args: { item: DduItem },
   ): Promise<NoFilePreviewer | undefined> => {
-    console.log(args);
+    if (!isItem(args.item.action)) {
+      return await Promise.resolve(undefined);
+    }
+
     return await Promise.resolve({
       kind: "nofile",
-      contents: ["hogehogehoge"],
+      contents: args.item.action.project.description.split(/\r?\n/),
       filetype: "markdown",
     });
   };
