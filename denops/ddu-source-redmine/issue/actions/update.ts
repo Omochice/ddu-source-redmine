@@ -7,6 +7,7 @@ import { parse, stringify } from "https://deno.land/std@0.224.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v6.5.1/helper/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v6.5.1/lambda/mod.ts";
+import { format } from "https://deno.land/x/denops_std@v6.5.1/bufname/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
@@ -29,7 +30,11 @@ export async function update(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `redmine:///update#${item.issue.id}`;
+  const bufname = format({
+    scheme: "redmine",
+    expr: "/update",
+    fragment: `${item.issue.id}`,
+  });
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
   try {
     await fn.setbufline(

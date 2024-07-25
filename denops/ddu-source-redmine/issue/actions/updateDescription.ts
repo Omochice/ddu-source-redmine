@@ -5,6 +5,7 @@ import {
 import { Denops, fn } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
 import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v6.5.1/lambda/mod.ts";
+import { format } from "https://deno.land/x/denops_std@v6.5.1/bufname/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@0.7.0/issues/update.ts";
 import { isItem } from "../type.ts";
@@ -27,7 +28,11 @@ export async function updateDescription(args: {
     return ActionFlags.None;
   }
 
-  const bufname = `redmine:///description#${item.issue.id}`;
+  const bufname = format({
+    scheme: "redmine",
+    expr: "/description",
+    fragment: `${item.issue.id}`,
+  });
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
   await fn.setbufline(
     denops,
