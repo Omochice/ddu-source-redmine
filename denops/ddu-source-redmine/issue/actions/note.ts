@@ -6,6 +6,7 @@ import { Denops, fn } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
 import { parse, stringify } from "https://deno.land/std@0.224.0/toml/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
 import { echoerr } from "https://deno.land/x/denops_std@v6.5.1/helper/mod.ts";
+import { batch } from "https://deno.land/x/denops_std@v6.5.1/batch/mod.ts";
 import { register } from "https://deno.land/x/denops_std@v6.5.1/lambda/mod.ts";
 import { format } from "https://deno.land/x/denops_std@v6.5.1/bufname/mod.ts";
 import {
@@ -60,48 +61,42 @@ export async function note(args: {
   });
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
 
-  await fn.setbufline(
-    denops,
-    bufnr,
-    1,
-    stringify(noteTemplate).trim().split(/\r?\n/),
-  );
+  await batch(denops, async (d) => {
+    await fn.setbufline(
+      d,
+      bufnr,
+      1,
+      stringify(noteTemplate).trim().split(/\r?\n/),
+    );
 
-  await filetype.setBuffer(denops, bufnr, "toml");
-  await modified.setBuffer(denops, bufnr, false);
-
-  const id = register(denops, async (lines: unknown) => {
-    assert(lines, is.ArrayOf(is.String));
-    try {
-      const note = parse(lines.join("\n"));
-      if (!isNotes(note)) {
-        await echoerr(denops, "Schema is not matched");
-        return;
+    await filetype.setBuffer(d, bufnr, "toml");
+    await modified.setBuffer(d, bufnr, false);
+    const id = register(d, async (lines: unknown) => {
+      assert(lines, is.ArrayOf(is.String));
+      try {
+        const note = parse(lines.join("\n"));
+        if (!isNotes(note)) {
+          await echoerr(d, "Schema is not matched");
+          return;
+        }
+        await update(item.issue.id, convertNote(note), item);
+      } catch {
+        await echoerr(d, `Content is invalid toml format: ${lines.join("\n")}`);
       }
-      await update(
-        item.issue.id,
-        convertNote(note),
-        item,
-      );
-    } catch {
-      await echoerr(
-        denops,
-        `Content is invalid toml format: ${lines.join("\n")}`,
-      );
-    }
-  }, { once: true });
+    }, { once: true });
 
-  const command = getEditCommand(actionParams, kindParams);
+    const command = getEditCommand(actionParams, kindParams);
 
-  await denops.cmd(`${command} +buffer${bufnr}`);
-  await define(
-    denops,
-    "BufWinLeave",
-    bufname,
-    `call denops#notify('${denops.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
-    {
-      once: true,
-    },
-  );
+    await d.cmd(`${command} +buffer${bufnr}`);
+    await define(
+      d,
+      "BufWinLeave",
+      bufname,
+      `call denops#notify('${d.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+      {
+        once: true,
+      },
+    );
+  });
   return ActionFlags.None;
 }

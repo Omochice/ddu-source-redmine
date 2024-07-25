@@ -4,6 +4,7 @@ import {
   buftype,
   swapfile,
 } from "https://deno.land/x/denops_std@v6.5.1/option/mod.ts";
+import { batch } from "https://deno.land/x/denops_std@v6.5.1/batch/mod.ts";
 import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
 
 type BufType =
@@ -36,11 +37,13 @@ async function prepareBuffer(
   opts?: BufferOption,
 ): Promise<number> {
   const bufnr = await fn.bufadd(denops, bufname);
-  await fn.bufload(denops, bufnr);
-  await buftype.setBuffer(denops, bufnr, opts?.buftype ?? "");
-  await bufhidden.setBuffer(denops, bufnr, opts?.bufhidden ?? "");
-  await swapfile.setBuffer(denops, bufnr, opts?.swapfile ?? false);
-  await fn.deletebufline(denops, bufnr, 1, "$");
+  await batch(denops, async (d) => {
+    await fn.bufload(d, bufnr);
+    await buftype.setBuffer(d, bufnr, opts?.buftype ?? "");
+    await bufhidden.setBuffer(d, bufnr, opts?.bufhidden ?? "");
+    await swapfile.setBuffer(d, bufnr, opts?.swapfile ?? false);
+    await fn.deletebufline(d, bufnr, 1, "$");
+  });
   return bufnr;
 }
 
