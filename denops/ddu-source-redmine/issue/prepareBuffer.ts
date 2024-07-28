@@ -1,4 +1,4 @@
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
+import { Denops, fn } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
 import {
   bufhidden,
   buftype,

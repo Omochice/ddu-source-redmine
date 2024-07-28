@@ -3,8 +3,8 @@ import {
   DduOptions,
   Item,
   SourceOptions,
-} from "https://deno.land/x/ddu_vim@v4.2.0/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
+import { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
 import { listIssues } from "https://deno.land/x/deno_redmine@v0.9.1/issues/list.ts";
 import type { Issue } from "https://deno.land/x/deno_redmine@v0.9.1/issues/type.ts";
 import type { Context } from "https://deno.land/x/deno_redmine@v0.9.1/context.ts";
