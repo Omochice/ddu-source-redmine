@@ -12,7 +12,7 @@ import {
   modified,
 } from "https://deno.land/x/denops_std@v6.5.1/option/mod.ts";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.9.1/issues/update.ts";
+import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { isItem } from "../type.ts";
 import { assert, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 import { getEditCommand } from "../getEditCommand.ts";
