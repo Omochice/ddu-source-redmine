@@ -5,9 +5,9 @@ import {
   SourceOptions,
 } from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
 import { Denops } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
-import { listIssues } from "https://deno.land/x/deno_redmine@v0.9.1/issues/list.ts";
-import type { Issue } from "https://deno.land/x/deno_redmine@v0.9.1/issues/type.ts";
-import type { Context } from "https://deno.land/x/deno_redmine@v0.9.1/context.ts";
+import { listIssues } from "https://deno.land/x/deno_redmine@v0.10.0/issues/list.ts";
+import type { Issue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/type.ts";
+import type { Context } from "https://deno.land/x/deno_redmine@v0.10.0/context.ts";
 import { type ActionData, kindName } from "../@ddu-kinds/redmine_issue.ts";
 
 type Params = Context & { onlyAsignedTo?: "me" | number };
