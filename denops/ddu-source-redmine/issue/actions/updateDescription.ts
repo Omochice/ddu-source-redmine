@@ -47,7 +47,7 @@ export async function updateDescription(args: {
       1,
       (item.issue.description ?? "").split(/\r?\n/),
     );
-    await filetype.setBuffer(d, bufnr, "toml");
+    await filetype.setBuffer(d, bufnr, "markdown");
     await modified.setBuffer(d, bufnr, false);
 
     const id = register(d, async (lines: unknown) => {
