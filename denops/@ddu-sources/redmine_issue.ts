@@ -1,8 +1,8 @@
 import {
   BaseSource,
-  DduOptions,
-  Item,
-  SourceOptions,
+  type DduOptions,
+  type Item,
+  type SourceOptions,
 } from "jsr:@shougo/ddu-vim@5.0.0/types";
 import type { Denops } from "jsr:@denops/std@7.4.0";
 import { listIssues } from "https://deno.land/x/deno_redmine@v0.10.0/issues/list.ts";
