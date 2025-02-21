@@ -1,7 +1,7 @@
 import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@5.0.0/types";
 import type { Denops } from "jsr:@denops/std@7.4.0";
 import { isItem, type Item } from "../type.ts";
-import { join } from "jsr:@std/url@0.224.0/join";
+import { join } from "jsr:@std/url@0.225.1/join";
 import { systemopen } from "jsr:@lambdalisue/systemopen@1.0.0";
 
 function issueUrl(issueItem: Item): URL {
