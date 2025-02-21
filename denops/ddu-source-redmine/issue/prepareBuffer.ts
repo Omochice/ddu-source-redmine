@@ -1,11 +1,8 @@
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
-import {
-  bufhidden,
-  buftype,
-  swapfile,
-} from "https://deno.land/x/denops_std@v6.5.1/option/mod.ts";
-import { batch } from "https://deno.land/x/denops_std@v6.5.1/batch/mod.ts";
-import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
+import { bufhidden, buftype, swapfile } from "jsr:@denops/std@7.4.0/option";
+import { batch } from "jsr:@denops/std@7.4.0/batch";
+import type { Denops } from "jsr:@denops/std@7.4.0";
+import * as fn from "jsr:@denops/std@7.4.0/function";
+import { define } from "jsr:@denops/std@7.4.0/autocmd";
 
 type BufType =
   | ""

@@ -1,20 +1,15 @@
-import {
-  ActionFlags,
-  DduItem,
-} from "https://deno.land/x/ddu_vim@v5.0.0/types.ts";
-import { Denops, fn } from "https://deno.land/x/ddu_vim@v5.0.0/deps.ts";
-import { define } from "https://deno.land/x/denops_std@v6.5.1/autocmd/mod.ts";
-import { batch } from "https://deno.land/x/denops_std@v6.5.1/batch/mod.ts";
-import { register } from "https://deno.land/x/denops_std@v6.5.1/lambda/mod.ts";
-import { format } from "https://deno.land/x/denops_std@v6.5.1/bufname/mod.ts";
-import {
-  filetype,
-  modified,
-} from "https://deno.land/x/denops_std@v6.5.1/option/mod.ts";
+import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@5.0.0/types";
+import { type Denops } from "jsr:@denops/std@7.4.0";
+import * as fn from "jsr:@denops/std@7.4.0/function";
+import { define } from "jsr:@denops/std@7.4.0/autocmd";
+import { batch } from "jsr:@denops/std@7.4.0/batch";
+import { register } from "jsr:@denops/std@7.4.0/lambda";
+import { format } from "jsr:@denops/std@7.4.0/bufname";
+import { filetype, modified } from "jsr:@denops/std@7.4.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { isItem } from "../type.ts";
-import { assert, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
+import { assert, is } from "jsr:@core/unknownutil@3.18.1";
 import { getEditCommand } from "../getEditCommand.ts";
 
 export async function updateDescription(args: {
