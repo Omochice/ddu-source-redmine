@@ -13,7 +13,7 @@ import { type ActionData, kindName } from "../@ddu-kinds/redmine_issue.ts";
 type Params = Context & { onlyAsignedTo?: "me" | number };
 
 export class Source extends BaseSource<Params> {
-  kind = kindName;
+  override kind = kindName;
 
   gather(args: {
     denops: Denops;
