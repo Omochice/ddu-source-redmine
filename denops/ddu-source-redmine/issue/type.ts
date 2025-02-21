@@ -6,7 +6,7 @@ import {
 export const isItem = is.ObjectOf({
   issue: is.ObjectOf({
     id: is.Number,
-    description: is.OneOf([
+    description: is.UnionOf([
       is.String,
       is.Undefined,
     ]),
