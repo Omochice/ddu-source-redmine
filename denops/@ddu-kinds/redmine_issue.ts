@@ -1,9 +1,9 @@
 import {
   Actions,
-  BaseKind,
   type DduItem,
   type NoFilePreviewer,
 } from "jsr:@shougo/ddu-vim@10.0.0/types";
+import { BaseKind } from "jsr:@shougo/ddu-vim@10.0.0/kind";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
@@ -24,7 +24,7 @@ const actions: Actions<Params> = {
 };
 
 export class Kind extends BaseKind<Params> {
-  override actions = actions;
+  override actions: Actions<Params> = actions;
   override async getPreviewer(
     args: { item: DduItem },
   ): Promise<NoFilePreviewer | undefined> {
