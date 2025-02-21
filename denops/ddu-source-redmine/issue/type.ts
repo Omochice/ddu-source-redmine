@@ -1,4 +1,4 @@
-import { is, type Predicate } from "jsr:@core/unknownutil@3.18.1";
+import { is, type Predicate } from "jsr:@core/unknownutil@4.3.0";
 
 export type Item = {
   issue: {
