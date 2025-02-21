@@ -10,7 +10,7 @@ import { filetype, modified } from "jsr:@denops/std@7.4.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { isItem } from "../type.ts";
-import { assert, is } from "jsr:@core/unknownutil@3.18.1";
+import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
 
 export async function update(args: {
