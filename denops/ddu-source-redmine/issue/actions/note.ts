@@ -10,15 +10,19 @@ import { format } from "jsr:@denops/std@7.4.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@7.4.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
-import { assert, is, PredicateType } from "jsr:@core/unknownutil@3.18.1";
+import { assert, is, type Predicate } from "jsr:@core/unknownutil@3.18.1";
 import { isItem } from "../type.ts";
 import { getEditCommand } from "../getEditCommand.ts";
+
+type Note = {
+  notes: string;
+  private_notes?: boolean;
+};
 
 const isNotes = is.ObjectOf({
   notes: is.String,
   private_notes: is.OptionalOf(is.Boolean),
-});
-type Note = PredicateType<typeof isNotes>;
+}) satisfies Predicate<Note>;
 
 const convertNote = (note: Note): Required<Note> => {
   return {

@@ -1,4 +1,13 @@
-import { is, PredicateType } from "jsr:@core/unknownutil@3.18.1";
+import { is, type Predicate } from "jsr:@core/unknownutil@3.18.1";
+
+export type Item = {
+  issue: {
+    id: number;
+    description: string | undefined;
+  };
+  endpoint: string;
+  apiKey: string;
+};
 
 export const isItem = is.ObjectOf({
   issue: is.ObjectOf({
@@ -10,9 +19,7 @@ export const isItem = is.ObjectOf({
   }),
   endpoint: is.String,
   apiKey: is.String,
-});
-
-export type Item = PredicateType<typeof isItem>;
+}) satisfies Predicate<Item>;
 
 export const mayHasCommand = is.ObjectOf({
   command: is.OptionalOf(is.String),
