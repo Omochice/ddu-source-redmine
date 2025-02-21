@@ -1,7 +1,7 @@
 import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@10.0.0/types";
 import type { Denops } from "jsr:@denops/std@7.4.0";
 import * as fn from "jsr:@denops/std@7.4.0/function";
-import { stringify } from "jsr:@std/yaml@0.224.3";
+import { stringify } from "jsr:@std/yaml@1.0.5";
 import { extractYaml } from "jsr:@std/front-matter@1.0.7";
 import { define } from "jsr:@denops/std@7.4.0/autocmd";
 import { echoerr } from "jsr:@denops/std@7.4.0/helper";
