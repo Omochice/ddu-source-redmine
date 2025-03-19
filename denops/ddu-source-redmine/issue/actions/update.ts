@@ -1,4 +1,4 @@
-import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@10.2.0/types";
+import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@10.3.0/types";
 import type { Denops } from "jsr:@denops/std@7.5.0";
 import * as fn from "jsr:@denops/std@7.5.0/function";
 import { parse, stringify } from "jsr:@std/toml@1.0.2";
