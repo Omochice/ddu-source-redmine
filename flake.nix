@@ -73,31 +73,6 @@
     in
     {
       # keep-sorted start block=yes
-      apps = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in
-        {
-          release-build = {
-            type = "app";
-            program = toString (
-              pkgs.writeShellScript "release" ''
-                ${pkgs.goreleaser}/bin/goreleaser release --snapshot --clean
-              ''
-            );
-          };
-          release = {
-            type = "app";
-            program = toString (
-              pkgs.writeShellScript "release" ''
-                ${pkgs.goreleaser}/bin/goreleaser release --clean --skip announce
-              ''
-            );
-          };
-        }
-      );
-      defaultPackage = forAllSystems (system: self.packages.${system}.redmine-title);
       devShells = forAllSystems (
         system:
         let
