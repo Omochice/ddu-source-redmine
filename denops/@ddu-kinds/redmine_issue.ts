@@ -8,13 +8,15 @@ import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
 import { openBrowser } from "../ddu-source-redmine/issue/actions/open.ts";
-import { isItem, type Item } from "../ddu-source-redmine/issue/type.ts";
+import {
+  isItem,
+  type Item,
+  type Params,
+} from "../ddu-source-redmine/issue/type.ts";
 
 export const kindName = "redmine_issue" as const;
 
 export type ActionData = Item;
-
-type Params = Record<PropertyKey, never>;
 
 const actions = {
   note,
