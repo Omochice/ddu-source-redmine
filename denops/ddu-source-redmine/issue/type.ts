@@ -24,3 +24,5 @@ export const isItem = is.ObjectOf({
 export const mayHasCommand = is.ObjectOf({
   command: as.Optional(is.String),
 });
+
+export type Params = Record<PropertyKey, never>;
