@@ -106,15 +106,18 @@
         {
           default = pkgs.mkShell {
             buildInputs = with pkgs; [
-              # keep-sorted start
               deno
-              # keep-sorted end
             ];
           };
           check-action = pkgs.mkShell {
             buildInputs = with pkgs; [
               actionlint
               nur.packages.${system}.ghalint
+            ];
+          };
+          renovate = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              renovate
             ];
           };
         }
