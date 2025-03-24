@@ -35,7 +35,7 @@ jobs:
               - .github/workflows/*.yml
               - .github/workflows/*.yaml
             deno:
-              - **/*.ts
+              - ./**/*.ts
   check-actions:
     needs: path-filter
     if: needs.path-filter.outputs.actions == 'true' || needs.path-filter.outputs.flake == 'true'
