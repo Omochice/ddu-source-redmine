@@ -1,5 +1,5 @@
 {
-  description = "Redmine sourec for ddu.vim";
+  description = "Redmine source for ddu.vim";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
