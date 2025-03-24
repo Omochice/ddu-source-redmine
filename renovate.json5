@@ -4,4 +4,7 @@
     "github>Omochice/personal-renovate-config",
     "github>Omochice/renovate-config:deno",
   ],
+  nix: {
+    enabled: true,
+  },
 }
