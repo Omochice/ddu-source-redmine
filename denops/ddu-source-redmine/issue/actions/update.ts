@@ -1,4 +1,9 @@
-import { ActionFlags, type DduItem } from "jsr:@shougo/ddu-vim@10.3.0/types";
+import {
+  type Action,
+  type ActionCallback,
+  ActionFlags,
+  type DduItem,
+} from "jsr:@shougo/ddu-vim@10.3.0/types";
 import type { Denops } from "jsr:@denops/std@7.5.0";
 import * as fn from "jsr:@denops/std@7.5.0/function";
 import { parse, stringify } from "jsr:@std/toml@1.0.2";
@@ -13,12 +18,12 @@ import { isItem } from "../type.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
 
-export async function update(args: {
+const callback: ActionCallback<never> = async (args: {
   denops: Denops;
   actionParams: unknown;
   kindParams: unknown;
   items: DduItem[];
-}): Promise<ActionFlags> {
+}): Promise<ActionFlags> => {
   const { denops, items, kindParams, actionParams } = args;
   if (items.length !== 1) {
     return ActionFlags.Persist;
@@ -80,4 +85,9 @@ export async function update(args: {
   );
 
   return ActionFlags.None;
-}
+};
+
+export const update = {
+  description: "Update properties of this issue",
+  callback,
+} as const satisfies Action<never>;

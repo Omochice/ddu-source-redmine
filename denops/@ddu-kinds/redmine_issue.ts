@@ -16,12 +16,12 @@ export type ActionData = Item;
 
 type Params = Record<PropertyKey, never>;
 
-const actions: Actions<Params> = {
+const actions = {
   note,
   update,
   updateDescription,
   openBrowser,
-};
+} as const satisfies Actions<Params>;
 
 export class Kind extends BaseKind<Params> {
   override actions: Actions<Params> = actions;
