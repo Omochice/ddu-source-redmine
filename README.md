@@ -4,7 +4,7 @@ Redmine source for ddu.vim
 
 > [!CAUTION]
 > This source is under development.
-> We may commit breaking changes without some notifications.
+> We may commit breaking changes without prior notice.
 
 ## Required
 
