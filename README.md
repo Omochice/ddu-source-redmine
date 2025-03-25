@@ -25,7 +25,7 @@ call ddu#custom#patch_global(#{
       \   sourceParams: #{
       \     redmine_issue: #{
       \       endpoint: 'https://your.redmine.example.com',
-      \       apiKey: 'Your_redmine_api_key',
+      \       apiKey: $YOUR_REDMINE_APIKEY,
       \     },
       \   },
       \ })
