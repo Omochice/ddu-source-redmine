@@ -2,7 +2,7 @@
 
 Redmine source for ddu.vim
 
-> [!CAUTION]
+> \[!CAUTION\]
 > This source is under development.
 > We may commit breaking changes without prior notice.
 
