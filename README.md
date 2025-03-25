@@ -8,13 +8,8 @@ Redmine source for ddu.vim
 
 ## Required
 
-### denops.vim
-
-https://github.com/vim-denops/denops.vim
-
-### ddu.vim
-
-https://github.com/Shougo/ddu.vim
+- [vim-denops/denops.vim](https://github.com/vim-denops/denops.vim)
+- [Shougo/ddu.vim](https://github.com/Shougo/ddu.vim)
 
 ## Configuration
 
