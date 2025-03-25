@@ -39,7 +39,7 @@ PARAMS                                             *ddu-source-redmine-params*
 
                                      *ddu-source-redmine-params-onlyAsignedTo*
 `onlyAsignedTo`		(`"me" | number`)
-		It is used to filtering issues.
+		It is used to filter issues.
 
 		Optional.
 
