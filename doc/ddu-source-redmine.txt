@@ -1,0 +1,47 @@
+*ddu-source-redmine.txt*                            Redmine source for ddu.vim
+
+==============================================================================
+EXAMPLE                                           *ddu-source-redmine-example*
+
+>vim
+	call ddu#start(#{ sources: [#{ name: 'redmine_issue' }] })
+<
+
+
+==============================================================================
+CONFIGURATION                               *ddu-source-redmine-configuration*
+
+>vim
+	call ddu#custom#patch_global(#{
+	  \   sourceParams: #{
+	  \     redmine_issue: #{
+	  \       endpoint: 'https://your.redmine.example.com',
+	  \       apiKey: $YOUR_REDMINE_APIKEY,
+	  \     },
+	  \   },
+	  \ })
+<
+
+==============================================================================
+PARAMS                                             *ddu-source-redmine-params*
+
+                                          *ddu-source-redmine-params-endpoint*
+`endpoint`		(`string`)
+		Path to your redmine instance.
+
+		Required.
+
+                                            *ddu-source-redmine-params-apiKey*
+`apiKey`		(`string`)
+		An api key for your redmine instance.
+
+		Required.
+
+                                     *ddu-source-redmine-params-onlyAsignedTo*
+`onlyAsignedTo`		(`"me" | number`)
+		It is used to filtering issues.
+
+		Optional.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:

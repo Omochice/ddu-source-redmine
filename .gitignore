@@ -64,6 +64,3 @@ Temporary Items
 *.swp
 
 # End of https://www.toptal.com/developers/gitignore/api/deno
-
-README.md
-doc/ddu-source-redmine.txt
