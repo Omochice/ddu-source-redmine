@@ -8,7 +8,8 @@ import { type Denops } from "jsr:@denops/std@7.5.0";
 import * as fn from "jsr:@denops/std@7.5.0/function";
 import { define } from "jsr:@denops/std@7.5.0/autocmd";
 import { batch } from "jsr:@denops/std@7.5.0/batch";
-import { register } from "jsr:@denops/std@7.5.0/lambda";
+import { add } from "jsr:@denops/std@7.5.0/lambda";
+import { expr } from "jsr:@denops/std@7.5.0/eval";
 import { format } from "jsr:@denops/std@7.5.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@7.5.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
@@ -50,14 +51,14 @@ const callback: ActionCallback<Params> = async (args: {
     await filetype.setBuffer(d, bufnr, "markdown");
     await modified.setBuffer(d, bufnr, false);
 
-    const id = register(d, async (lines: unknown) => {
+    const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
       await updateIssue(
         item.issue.id,
         { description: lines.join("\n").trim() },
         item,
       );
-    }, { once: true });
+    });
 
     const command = getEditCommand(actionParams, kindParams);
 
@@ -66,7 +67,7 @@ const callback: ActionCallback<Params> = async (args: {
       d,
       "BufWinLeave",
       bufname,
-      `call denops#notify('${d.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+      `call ${lambda.request(expr`getbufline(${bufnr}, 1, '$')`)}`,
       {
         once: true,
       },

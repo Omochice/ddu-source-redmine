@@ -11,7 +11,8 @@ import { extractYaml } from "jsr:@std/front-matter@1.0.9";
 import { define } from "jsr:@denops/std@7.5.0/autocmd";
 import { echoerr } from "jsr:@denops/std@7.5.0/helper";
 import { batch } from "jsr:@denops/std@7.5.0/batch";
-import { register } from "jsr:@denops/std@7.5.0/lambda";
+import { add } from "jsr:@denops/std@7.5.0/lambda";
+import { expr } from "jsr:@denops/std@7.5.0/eval";
 import { format } from "jsr:@denops/std@7.5.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@7.5.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
@@ -67,7 +68,7 @@ const callback: ActionCallback<Params> = async (args: {
 
     await filetype.setBuffer(d, bufnr, "markdown");
     await modified.setBuffer(d, bufnr, false);
-    const id = register(d, async (lines: unknown) => {
+    const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
       try {
         const { attrs, body } = extractYaml<NoteOption>(lines.join("\n"));
@@ -79,7 +80,7 @@ const callback: ActionCallback<Params> = async (args: {
       } catch {
         await echoerr(d, `Content is invalid format: ${lines.join("\n")}`);
       }
-    }, { once: true });
+    });
 
     const command = getEditCommand(actionParams, kindParams);
 
@@ -88,7 +89,7 @@ const callback: ActionCallback<Params> = async (args: {
       d,
       "BufWinLeave",
       bufname,
-      `call denops#notify('${d.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+      `call ${lambda.request(expr`getbufline(${bufnr}, 1, '$')`)}`,
       {
         once: true,
       },
