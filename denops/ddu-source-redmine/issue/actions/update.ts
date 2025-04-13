@@ -9,7 +9,8 @@ import * as fn from "jsr:@denops/std@7.5.0/function";
 import { parse, stringify } from "jsr:@std/toml@1.0.4";
 import { define } from "jsr:@denops/std@7.5.0/autocmd";
 import { echoerr } from "jsr:@denops/std@7.5.0/helper";
-import { register } from "jsr:@denops/std@7.5.0/lambda";
+import { add } from "jsr:@denops/std@7.5.0/lambda";
+import { expr } from "jsr:@denops/std@7.5.0/eval";
 import { format } from "jsr:@denops/std@7.5.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@7.5.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
@@ -54,7 +55,7 @@ const callback: ActionCallback<Params> = async (args: {
     return ActionFlags.None;
   }
 
-  const id = register(denops, async (lines: unknown) => {
+  const lambda = add(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));
     try {
       const content = parse(lines.join("\n"));
@@ -69,7 +70,7 @@ const callback: ActionCallback<Params> = async (args: {
         `Content is invalid toml format: ${lines.join("\n")}`,
       );
     }
-  }, { once: true });
+  });
 
   const command = getEditCommand(actionParams, kindParams);
 
@@ -78,7 +79,7 @@ const callback: ActionCallback<Params> = async (args: {
     denops,
     "BufWinLeave",
     bufname,
-    `call denops#notify('${denops.name}', '${id}', [getbufline(${bufnr}, 1, '$')])`,
+    `call ${lambda.request(expr`getbufline(${bufnr}, 1, '$')`)}`,
     {
       once: true,
     },
