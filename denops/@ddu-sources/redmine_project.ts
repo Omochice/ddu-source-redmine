@@ -13,7 +13,7 @@ import { type ActionData, kindName } from "../@ddu-kinds/redmine_project.ts";
 type Params = Context;
 
 export class Source extends BaseSource<Params> {
-  kind = kindName;
+  override kind = kindName;
 
   gather(
     args: {
