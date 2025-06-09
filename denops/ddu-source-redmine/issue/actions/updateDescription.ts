@@ -4,14 +4,14 @@ import {
   ActionFlags,
   type DduItem,
 } from "jsr:@shougo/ddu-vim@10.3.0/types";
-import { type Denops } from "jsr:@denops/std@7.5.0";
-import * as fn from "jsr:@denops/std@7.5.0/function";
-import { define } from "jsr:@denops/std@7.5.0/autocmd";
-import { batch } from "jsr:@denops/std@7.5.0/batch";
-import { add } from "jsr:@denops/std@7.5.0/lambda";
-import { expr } from "jsr:@denops/std@7.5.0/eval";
-import { format } from "jsr:@denops/std@7.5.0/bufname";
-import { filetype, modified } from "jsr:@denops/std@7.5.0/option";
+import { type Denops } from "jsr:@denops/std@7.5.1";
+import * as fn from "jsr:@denops/std@7.5.1/function";
+import { define } from "jsr:@denops/std@7.5.1/autocmd";
+import { batch } from "jsr:@denops/std@7.5.1/batch";
+import { add } from "jsr:@denops/std@7.5.1/lambda";
+import { expr } from "jsr:@denops/std@7.5.1/eval";
+import { format } from "jsr:@denops/std@7.5.1/bufname";
+import { filetype, modified } from "jsr:@denops/std@7.5.1/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { isItem, type Params } from "../type.ts";
