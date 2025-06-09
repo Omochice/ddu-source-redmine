@@ -4,7 +4,7 @@ import {
   ActionFlags,
   type DduItem,
 } from "jsr:@shougo/ddu-vim@10.3.0/types";
-import type { Denops } from "jsr:@denops/std@7.5.0";
+import type { Denops } from "jsr:@denops/std@7.5.1";
 import { isItem, type Item, type Params } from "../type.ts";
 import { join } from "jsr:@std/url@0.225.1/join";
 import { systemopen } from "jsr:@lambdalisue/systemopen@1.0.0";
