@@ -6,7 +6,7 @@ import {
 } from "jsr:@shougo/ddu-vim@10.3.0/types";
 import type { Denops } from "jsr:@denops/std@7.5.1";
 import * as fn from "jsr:@denops/std@7.5.1/function";
-import { stringify } from "jsr:@std/yaml@1.0.7";
+import { stringify } from "jsr:@std/yaml@1.0.8";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
 import { define } from "jsr:@denops/std@7.5.1/autocmd";
 import { echoerr } from "jsr:@denops/std@7.5.1/helper";
