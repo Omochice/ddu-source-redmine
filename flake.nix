@@ -7,6 +7,7 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-utils.url = "github:numtide/flake-utils";
     nur = {
       url = "github:Omochice/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,27 +19,17 @@
       self,
       nixpkgs,
       treefmt-nix,
+      flake-utils,
       nur,
     }:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      nixpkgsFor = forAllSystems (
-        system:
-        import nixpkgs {
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
           inherit system;
-          # overlays = [ nur.overlays ];
-        }
-      );
-
-      treefmt =
-        system:
-        treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${system} (
+          overlays = [ nur.overlays.default ];
+        };
+        treefmt = treefmt-nix.lib.evalModule pkgs (
           { ... }:
           {
             programs = {
@@ -56,10 +47,6 @@
               keep-sorted.enable = true;
               mdformat.enable = true;
               nixfmt.enable = true;
-              pinact = {
-                enable = true;
-                update = false;
-              };
               yamlfmt = {
                 enable = true;
                 settings = {
@@ -73,34 +60,56 @@
             };
           }
         );
-    in
-    {
-      # keep-sorted start block=yes
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in
-        {
-          default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              deno
-            ];
+        runAs =
+          name: runtimeInputs: text:
+          let
+            program = pkgs.writeShellApplication {
+              inherit name runtimeInputs text;
+            };
+          in
+          {
+            type = "app";
+            program = "${program}/bin/${name}";
           };
-          check-action = pkgs.mkShell {
-            buildInputs = with pkgs; [
+        devPackages = rec {
+          actions = [
+            pkgs.actionlint
+            pkgs.ghalint
+            pkgs.zizmor
+          ];
+          deno = [ pkgs.deno ];
+          renovate = [ pkgs.renovate ];
+          default = actions ++ deno ++ renovate;
+        };
+      in
+      {
+        # keep-sorted start block=yes
+        apps = {
+          check-actions =
+            ''
               actionlint
-              nur.packages.${system}.ghalint
-            ];
-          };
-          renovate = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              renovate
-            ];
-          };
-        }
-      );
-      formatter = forAllSystems (system: (treefmt system).config.build.wrapper);
-      # keep-sorted end
-    };
+              ghalint run
+              zizmor .github/workflows
+            ''
+            |> runAs "check-actions" devPackages.actions;
+          check-renovate-config =
+            "renovate-config-validator renovate.json5" |> runAs "check-renovate-config" devPackages.renovate;
+          check-deno =
+            ''
+              deno task fmt:check
+              deno task check
+              deno task lint
+            ''
+            |> runAs "check-deno" devPackages.deno;
+        };
+        checks = {
+          formatting = treefmt.config.build.check self;
+        };
+        devShells =
+          devPackages
+          |> pkgs.lib.attrsets.mapAttrs (name: buildInputs: pkgs.mkShell { inherit buildInputs; });
+        formatter = treefmt.config.build.wrapper;
+        # keep-sorted end
+      }
+    );
 }
