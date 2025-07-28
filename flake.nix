@@ -94,6 +94,7 @@
             "renovate-config-validator renovate.json5" |> runAs "check-renovate-config" [ pkgs.renovate ];
           check-deno =
             ''
+              deno task fmt:check
               deno task check
               deno task lint
             ''
