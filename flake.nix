@@ -88,9 +88,6 @@
       in
       {
         # keep-sorted start block=yes
-        devShells =
-          devPackages
-          |> pkgs.lib.attrsets.mapAttrs (name: buildInputs: pkgs.mkShell { inherit buildInputs; });
         apps = {
           check-actions =
             ''
@@ -112,6 +109,9 @@
         checks = {
           formatting = treefmt.config.build.check self;
         };
+        devShells =
+          devPackages
+          |> pkgs.lib.attrsets.mapAttrs (name: buildInputs: pkgs.mkShell { inherit buildInputs; });
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
       }
