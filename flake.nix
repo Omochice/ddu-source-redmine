@@ -47,10 +47,6 @@
               keep-sorted.enable = true;
               mdformat.enable = true;
               nixfmt.enable = true;
-              pinact = {
-                enable = true;
-                update = false;
-              };
               yamlfmt = {
                 enable = true;
                 settings = {
