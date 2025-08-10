@@ -3,7 +3,7 @@ import {
   type ActionCallback,
   ActionFlags,
   type DduItem,
-} from "jsr:@shougo/ddu-vim@10.3.0/types";
+} from "jsr:@shougo/ddu-vim@10.4.0/types";
 import type { Denops } from "jsr:@denops/std@7.6.0";
 import { isItem, type Item, type Params } from "../type.ts";
 import { join } from "jsr:@std/url@0.225.1/join";
