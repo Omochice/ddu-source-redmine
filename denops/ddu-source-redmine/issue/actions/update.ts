@@ -6,7 +6,7 @@ import {
 } from "jsr:@shougo/ddu-vim@10.4.0/types";
 import type { Denops } from "jsr:@denops/std@7.6.0";
 import * as fn from "jsr:@denops/std@7.6.0/function";
-import { parse, stringify } from "jsr:@std/toml@1.0.8";
+import { parse, stringify } from "jsr:@std/toml@1.0.9";
 import { define } from "jsr:@denops/std@7.6.0/autocmd";
 import { echoerr } from "jsr:@denops/std@7.6.0/helper";
 import { add } from "jsr:@denops/std@7.6.0/lambda";
