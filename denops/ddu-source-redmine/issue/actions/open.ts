@@ -6,11 +6,11 @@ import {
 } from "jsr:@shougo/ddu-vim@10.4.0/types";
 import type { Denops } from "jsr:@denops/std@7.6.0";
 import { isItem, type Item, type Params } from "../type.ts";
-import { join } from "jsr:@std/url@0.225.1/join";
+import { join } from "jsr:@std/path@0.225.1/posix";
 import { systemopen } from "jsr:@lambdalisue/systemopen@1.0.0";
 
 function issueUrl(issueItem: Item): URL {
-  return join(issueItem.endpoint, "issues", `${issueItem.issue.id}`);
+  return new URL(join(issueItem.endpoint, "issues", `${issueItem.issue.id}`));
 }
 
 const callback: ActionCallback<Params> = async (args: {
