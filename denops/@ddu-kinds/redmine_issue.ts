@@ -2,8 +2,8 @@ import {
   Actions,
   type DduItem,
   type NoFilePreviewer,
-} from "jsr:@shougo/ddu-vim@10.4.0/types";
-import { BaseKind } from "jsr:@shougo/ddu-vim@10.4.0/kind";
+} from "jsr:@shougo/ddu-vim@11.1.0/types";
+import { BaseKind } from "jsr:@shougo/ddu-vim@11.1.0/kind";
 import { update } from "../ddu-source-redmine/issue/actions/update.ts";
 import { note } from "../ddu-source-redmine/issue/actions/note.ts";
 import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
