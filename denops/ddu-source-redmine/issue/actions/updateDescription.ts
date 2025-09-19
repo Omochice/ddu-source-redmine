@@ -70,7 +70,7 @@ const callback: ActionCallback<Params> = async (args: {
       assert(attrs, is.ObjectOf({ title: as.Optional(is.String) }));
       await updateIssue(
         item.issue.id,
-        { subject: attrs.title ?? "", description: body },
+        { subject: attrs.title ?? item.issue.subject, description: body },
         item,
       );
     });
