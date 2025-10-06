@@ -4,14 +4,14 @@ import {
   ActionFlags,
   type DduItem,
 } from "jsr:@shougo/ddu-vim@11.1.0/types";
-import type { Denops } from "jsr:@denops/std@8.0.0";
-import * as fn from "jsr:@denops/std@8.0.0/function";
-import { define } from "jsr:@denops/std@8.0.0/autocmd";
-import { batch } from "jsr:@denops/std@8.0.0/batch";
-import { add } from "jsr:@denops/std@8.0.0/lambda";
-import { expr } from "jsr:@denops/std@8.0.0/eval";
-import { format } from "jsr:@denops/std@8.0.0/bufname";
-import { filetype, modified } from "jsr:@denops/std@8.0.0/option";
+import type { Denops } from "jsr:@denops/std@8.1.0";
+import * as fn from "jsr:@denops/std@8.1.0/function";
+import { define } from "jsr:@denops/std@8.1.0/autocmd";
+import { batch } from "jsr:@denops/std@8.1.0/batch";
+import { add } from "jsr:@denops/std@8.1.0/lambda";
+import { expr } from "jsr:@denops/std@8.1.0/eval";
+import { format } from "jsr:@denops/std@8.1.0/bufname";
+import { filetype, modified } from "jsr:@denops/std@8.1.0/option";
 import { stringify } from "jsr:@std/yaml@1.0.9";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";

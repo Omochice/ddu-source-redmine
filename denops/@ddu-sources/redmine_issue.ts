@@ -4,7 +4,7 @@ import {
   type SourceOptions,
 } from "jsr:@shougo/ddu-vim@11.1.0/types";
 import { BaseSource } from "jsr:@shougo/ddu-vim@11.1.0/source";
-import type { Denops } from "jsr:@denops/std@8.0.0";
+import type { Denops } from "jsr:@denops/std@8.1.0";
 import { listIssues } from "https://deno.land/x/deno_redmine@v0.10.0/issues/list.ts";
 import type { Issue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/type.ts";
 import type { Context } from "https://deno.land/x/deno_redmine@v0.10.0/context.ts";
