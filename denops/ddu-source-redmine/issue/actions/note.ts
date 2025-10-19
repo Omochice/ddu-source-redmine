@@ -4,17 +4,17 @@ import {
   ActionFlags,
   type DduItem,
 } from "jsr:@shougo/ddu-vim@11.1.0/types";
-import type { Denops } from "jsr:@denops/std@8.1.0";
-import * as fn from "jsr:@denops/std@8.1.0/function";
+import type { Denops } from "jsr:@denops/std@8.1.1";
+import * as fn from "jsr:@denops/std@8.1.1/function";
 import { stringify } from "jsr:@std/yaml@1.0.10";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
-import { define } from "jsr:@denops/std@8.1.0/autocmd";
-import { echoerr } from "jsr:@denops/std@8.1.0/helper";
-import { batch } from "jsr:@denops/std@8.1.0/batch";
-import { add } from "jsr:@denops/std@8.1.0/lambda";
-import { expr } from "jsr:@denops/std@8.1.0/eval";
-import { format } from "jsr:@denops/std@8.1.0/bufname";
-import { filetype, modified } from "jsr:@denops/std@8.1.0/option";
+import { define } from "jsr:@denops/std@8.1.1/autocmd";
+import { echoerr } from "jsr:@denops/std@8.1.1/helper";
+import { batch } from "jsr:@denops/std@8.1.1/batch";
+import { add } from "jsr:@denops/std@8.1.1/lambda";
+import { expr } from "jsr:@denops/std@8.1.1/eval";
+import { format } from "jsr:@denops/std@8.1.1/bufname";
+import { filetype, modified } from "jsr:@denops/std@8.1.1/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";

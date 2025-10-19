@@ -4,15 +4,15 @@ import {
   ActionFlags,
   type DduItem,
 } from "jsr:@shougo/ddu-vim@11.1.0/types";
-import type { Denops } from "jsr:@denops/std@8.1.0";
-import * as fn from "jsr:@denops/std@8.1.0/function";
+import type { Denops } from "jsr:@denops/std@8.1.1";
+import * as fn from "jsr:@denops/std@8.1.1/function";
 import { parse, stringify } from "jsr:@std/toml@1.0.11";
-import { define } from "jsr:@denops/std@8.1.0/autocmd";
-import { echoerr } from "jsr:@denops/std@8.1.0/helper";
-import { add } from "jsr:@denops/std@8.1.0/lambda";
-import { expr } from "jsr:@denops/std@8.1.0/eval";
-import { format } from "jsr:@denops/std@8.1.0/bufname";
-import { filetype, modified } from "jsr:@denops/std@8.1.0/option";
+import { define } from "jsr:@denops/std@8.1.1/autocmd";
+import { echoerr } from "jsr:@denops/std@8.1.1/helper";
+import { add } from "jsr:@denops/std@8.1.1/lambda";
+import { expr } from "jsr:@denops/std@8.1.1/eval";
+import { format } from "jsr:@denops/std@8.1.1/bufname";
+import { filetype, modified } from "jsr:@denops/std@8.1.1/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
 import { isItem, type Params } from "../type.ts";
