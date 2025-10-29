@@ -14,7 +14,7 @@ import { expr } from "jsr:@denops/std@8.1.1/eval";
 import { format } from "jsr:@denops/std@8.1.1/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.1.1/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.10.0/issues/update.ts";
+import { update as updateIssue } from "https://deno.land/x/deno_redmine@v1.0.0/issues/update.ts";
 import { isItem, type Params } from "../type.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
