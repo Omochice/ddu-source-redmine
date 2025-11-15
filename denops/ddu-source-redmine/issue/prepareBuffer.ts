@@ -1,8 +1,8 @@
-import { bufhidden, buftype, swapfile } from "jsr:@denops/std@8.1.1/option";
-import { batch } from "jsr:@denops/std@8.1.1/batch";
-import type { Denops } from "jsr:@denops/std@8.1.1";
-import * as fn from "jsr:@denops/std@8.1.1/function";
-import { define } from "jsr:@denops/std@8.1.1/autocmd";
+import { bufhidden, buftype, swapfile } from "jsr:@denops/std@8.2.0/option";
+import { batch } from "jsr:@denops/std@8.2.0/batch";
+import type { Denops } from "jsr:@denops/std@8.2.0";
+import * as fn from "jsr:@denops/std@8.2.0/function";
+import { define } from "jsr:@denops/std@8.2.0/autocmd";
 
 type BufType =
   | ""
