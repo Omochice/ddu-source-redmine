@@ -86,29 +86,26 @@
       {
         # keep-sorted start block=yes
         apps = {
-          check-actions =
-            ''
-              actionlint
-              ghalint run
-              zizmor .github/workflows
-            ''
-            |> runAs "check-actions" devPackages.actions;
-          check-renovate-config =
-            "renovate-config-validator renovate.json5" |> runAs "check-renovate-config" devPackages.renovate;
-          check-deno =
-            ''
-              deno task fmt:check
-              deno task check
-              deno task lint
-            ''
-            |> runAs "check-deno" devPackages.deno;
+          check-actions = pkgs.lib.pipe ''
+            actionlint
+            ghalint run
+            zizmor .github/workflows
+          '' [ (runAs "check-actions" devPackages.actions) ];
+          check-renovate-config = pkgs.lib.pipe ''
+            renovate-config-validator renovate.json5
+          '' [ (runAs "check-renovate-config" devPackages.renovate) ];
+          check-deno = pkgs.lib.pipe ''
+            deno task fmt:check
+            deno task check
+            deno task lint
+          '' [ (runAs "check-deno" devPackages.deno) ];
         };
         checks = {
           formatting = treefmt.config.build.check self;
         };
-        devShells =
-          devPackages
-          |> pkgs.lib.attrsets.mapAttrs (name: buildInputs: pkgs.mkShell { inherit buildInputs; });
+        devShells = pkgs.lib.pipe devPackages [
+          (pkgs.lib.attrsets.mapAttrs (name: buildInputs: pkgs.mkShell { inherit buildInputs; }))
+        ];
         formatter = treefmt.config.build.wrapper;
         # keep-sorted end
       }
