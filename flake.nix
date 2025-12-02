@@ -47,6 +47,8 @@
               keep-sorted.enable = true;
               mdformat.enable = true;
               nixfmt.enable = true;
+              taplo.enable = true;
+              toml-sort.enable = true;
               typos.enable = true;
               yamlfmt = {
                 enable = true;
