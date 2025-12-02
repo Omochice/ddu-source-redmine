@@ -1,10 +1,15 @@
 import { as, is, type Predicate } from "jsr:@core/unknownutil@4.3.0";
 
+export type Context = {
+  endpoint: string;
+  apiKey: string;
+};
+
 export type Item = {
   issue: {
     id: number;
     subject: string;
-    description: string | undefined;
+    description?: string;
   };
   endpoint: string;
   apiKey: string;

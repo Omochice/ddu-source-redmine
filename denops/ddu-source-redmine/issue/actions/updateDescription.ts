@@ -15,7 +15,7 @@ import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { stringify } from "jsr:@std/yaml@1.0.10";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update as updateIssue } from "https://deno.land/x/deno_redmine@v0.11.0/issues/update.ts";
+import { update as updateIssue } from "jsr:@omochice/redmine@2.0.0/result/issues/update";
 import { isItem, type Params } from "../type.ts";
 import { as, assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
@@ -69,9 +69,9 @@ const callback: ActionCallback<Params> = async (args: {
       const { attrs, body } = extractYaml(lines.join("\n").trim());
       assert(attrs, is.ObjectOf({ title: as.Optional(is.String) }));
       await updateIssue(
+        item,
         item.issue.id,
         { subject: attrs.title ?? item.issue.subject, description: body },
-        item,
       );
     });
 
