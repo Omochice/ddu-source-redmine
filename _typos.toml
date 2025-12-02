@@ -2,4 +2,4 @@
 noet = "noet"
 
 [files]
-extend-exclude = ["CHANGALOG.md"]
+extend-exclude = ["CHANGELOG.md"]
