@@ -25,3 +25,7 @@ call ddu#custom#patch_global(#{
       \   },
       \ })
 ```
+
+## License
+
+[zlib](./LICENSE)
