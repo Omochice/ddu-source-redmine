@@ -37,8 +37,8 @@ PARAMS                                             *ddu-source-redmine-params*
 
 		Required.
 
-                                     *ddu-source-redmine-params-onlyAsignedTo*
-`onlyAsignedTo`		(`"me" | number`)
+                                     *ddu-source-redmine-params-onlyAssignedTo*
+`onlyAssignedTo`		(`"me" | number`)
 		It is used to filter issues.
 
 		Optional.

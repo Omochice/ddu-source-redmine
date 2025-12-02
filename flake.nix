@@ -47,6 +47,7 @@
               keep-sorted.enable = true;
               mdformat.enable = true;
               nixfmt.enable = true;
+              typos.enable = true;
               yamlfmt = {
                 enable = true;
                 settings = {
