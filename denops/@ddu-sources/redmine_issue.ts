@@ -10,7 +10,7 @@ import type { Issue } from "jsr:@omochice/redmine@2.0.0/throwable/issues/type";
 import { type ActionData, kindName } from "../@ddu-kinds/redmine_issue.ts";
 import type { Context } from "../ddu-source-redmine/issue/type.ts";
 
-type Params = Context & { onlyAsignedTo?: "me" | number };
+type Params = Context & { onlyAssignedTo?: "me" | number };
 
 export class Source extends BaseSource<Params> {
   override kind = kindName;
@@ -30,7 +30,7 @@ export class Source extends BaseSource<Params> {
     return new ReadableStream({
       async start(controller) {
         const issues = await listIssues(connectionContext, {
-          assignedToId: args.sourceParams.onlyAsignedTo,
+          assignedToId: args.sourceParams.onlyAssignedTo,
         });
         if (!issues.isOk()) {
           controller.close();
