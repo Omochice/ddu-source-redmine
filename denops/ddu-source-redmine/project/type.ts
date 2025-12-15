@@ -1,15 +1,24 @@
-import {
-  is,
-  type PredicateType,
-} from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
+import { as, is, type Predicate } from "jsr:@core/unknownutil@4.3.0";
 
-const isProject = is.ObjectOf({
+export type Project = {
+  id: number;
+  name: string;
+  description?: string;
+  identifier: string;
+};
+
+export const isProject = is.ObjectOf({
   id: is.Number,
   name: is.String,
-  description: is.String,
-});
+  description: as.Optional(is.String),
+  identifier: is.String,
+}) satisfies Predicate<Project>;
 
-export type Project = PredicateType<typeof isProject>;
+export type Item = {
+  project: Project;
+  endpoint: string;
+  apiKey: string;
+};
 
 export const isItem = is.ObjectOf({
   endpoint: is.String,
@@ -17,4 +26,4 @@ export const isItem = is.ObjectOf({
   project: isProject,
 });
 
-export type Item = PredicateType<typeof isItem>;
+export type Params = Record<PropertyKey, never>;

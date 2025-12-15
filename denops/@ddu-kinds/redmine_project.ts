@@ -1,14 +1,10 @@
 import {
-  ActionFlags,
-  Actions,
-  BaseKind,
-  DduItem,
-  NoFilePreviewer,
-} from "https://deno.land/x/ddu_vim@v4.2.0/types.ts";
-import { update } from "../ddu-source-redmine/issue/actions/update.ts";
-import { note } from "../ddu-source-redmine/issue/actions/note.ts";
-import { updateDescription } from "../ddu-source-redmine/issue/actions/updateDescription.ts";
-import { openBrowser } from "../ddu-source-redmine/issue/actions/open.ts";
+  type Actions,
+  type DduItem,
+  type NoFilePreviewer,
+} from "jsr:@shougo/ddu-vim@11.1.0/types";
+import { BaseKind } from "jsr:@shougo/ddu-vim@11.1.0/kind";
+import { openBrowser } from "../ddu-source-redmine/project/actions/open.ts";
 import { isItem, type Item } from "../ddu-source-redmine/project/type.ts";
 
 export const kindName = "redmine_project" as const;
@@ -18,10 +14,7 @@ export type ActionData = Item;
 type Params = Record<PropertyKey, never>;
 
 const actions: Actions<Params> = {
-  sample: () => {
-    console.log("sample");
-    return ActionFlags.None;
-  },
+  openBrowser,
 };
 
 export class Kind extends BaseKind<Params> {
@@ -33,11 +26,11 @@ export class Kind extends BaseKind<Params> {
       return await Promise.resolve(undefined);
     }
 
-    return await Promise.resolve({
+    return {
       kind: "nofile",
-      contents: args.item.action.project.description.split(/\r?\n/),
+      contents: args.item.action.project.description?.split(/\r?\n/) ?? [""],
       filetype: "markdown",
-    });
+    };
   };
 
   override params = (): Params => ({});

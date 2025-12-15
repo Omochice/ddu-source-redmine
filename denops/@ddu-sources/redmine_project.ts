@@ -1,19 +1,22 @@
 import {
-  BaseSource,
-  DduOptions,
-  Item,
-  SourceOptions,
-} from "https://deno.land/x/ddu_vim@v4.2.0/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
-import { fetchList } from "https://deno.land/x/deno_redmine@0.7.0/projects/list.ts";
-import type { Project } from "https://deno.land/x/deno_redmine@0.7.0/projects/type.ts";
-import type { Context } from "https://deno.land/x/deno_redmine@0.7.0/context.ts";
+  type DduOptions,
+  type Item,
+  type SourceOptions,
+} from "jsr:@shougo/ddu-vim@11.1.0/types";
+import { BaseSource } from "jsr:@shougo/ddu-vim@11.1.0/source";
+import type { Denops } from "jsr:@denops/std@8.2.0";
+import { fetchList } from "jsr:@omochice/redmine@2.0.0/result/projects/list";
+import type { Project } from "jsr:@omochice/redmine@2.0.0/throwable/projects/type";
 import { type ActionData, kindName } from "../@ddu-kinds/redmine_project.ts";
 
+type Context = {
+  endpoint: string;
+  apiKey: string;
+};
 type Params = Context;
 
 export class Source extends BaseSource<Params> {
-  kind = kindName;
+  override kind = kindName;
 
   gather(
     args: {
@@ -27,7 +30,7 @@ export class Source extends BaseSource<Params> {
     const ctx = {
       endpoint: args.sourceParams.endpoint,
       apiKey: args.sourceParams.apiKey,
-    } as const;
+    } as const satisfies Context;
 
     const projectMapPromise = fetchProjectMap(ctx);
 
@@ -47,7 +50,6 @@ export class Source extends BaseSource<Params> {
         }
         const projects = projectMap.get(paths.at(-1)!);
         if (projects == null) {
-          console.error("project is null");
           controller.close();
           return;
         }
