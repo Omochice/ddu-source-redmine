@@ -2,8 +2,8 @@ import {
   type DduOptions,
   type Item,
   type SourceOptions,
-} from "jsr:@shougo/ddu-vim@11.1.0/types";
-import { BaseSource } from "jsr:@shougo/ddu-vim@11.1.0/source";
+} from "jsr:@shougo/ddu-vim@11.2.0/types";
+import { BaseSource } from "jsr:@shougo/ddu-vim@11.2.0/source";
 import type { Denops } from "jsr:@denops/std@8.2.0";
 import { listIssues } from "jsr:@omochice/redmine@2.0.1/result/issues/list";
 import type { Issue } from "jsr:@omochice/redmine@2.0.1/throwable/issues/type";
