@@ -2,8 +2,8 @@ import {
   type Actions,
   type DduItem,
   type NoFilePreviewer,
-} from "jsr:@shougo/ddu-vim@11.1.0/types";
-import { BaseKind } from "jsr:@shougo/ddu-vim@11.1.0/kind";
+} from "jsr:@shougo/ddu-vim@11.2.0/types";
+import { BaseKind } from "jsr:@shougo/ddu-vim@11.2.0/kind";
 import { openBrowser } from "../ddu-source-redmine/project/actions/open.ts";
 import { isItem, type Item } from "../ddu-source-redmine/project/type.ts";
 
