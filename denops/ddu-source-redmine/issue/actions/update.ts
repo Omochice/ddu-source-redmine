@@ -3,7 +3,7 @@ import {
   type ActionCallback,
   ActionFlags,
   type DduItem,
-} from "jsr:@shougo/ddu-vim@11.2.0/types";
+} from "jsr:@shougo/ddu-vim@11.3.0/types";
 import type { Denops } from "jsr:@denops/std@8.2.0";
 import * as fn from "jsr:@denops/std@8.2.0/function";
 import { parse, stringify } from "jsr:@std/toml@1.0.11";
