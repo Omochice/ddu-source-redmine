@@ -6,7 +6,7 @@ import {
 } from "jsr:@shougo/ddu-vim@11.3.0/types";
 import type { Denops } from "jsr:@denops/std@8.2.0";
 import { isItem, type Item, type Params } from "../type.ts";
-import { join } from "jsr:@std/path@1.1.5/posix";
+import { join } from "jsr:@std/path@1.1.6/posix";
 import { systemopen } from "jsr:@lambdalisue/systemopen@1.0.0";
 
 function issueUrl(issueItem: Item): URL {
