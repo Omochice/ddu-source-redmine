@@ -5,8 +5,8 @@ import {
 } from "jsr:@shougo/ddu-vim@11.3.0/types";
 import { BaseSource } from "jsr:@shougo/ddu-vim@11.3.0/source";
 import type { Denops } from "jsr:@denops/std@8.2.0";
-import { fetchList } from "jsr:@omochice/redmine@2.2.0/result/projects/list";
-import type { Project } from "jsr:@omochice/redmine@2.2.0/throwable/projects/type";
+import { fetchList } from "jsr:@omochice/redmine@2.3.1/result/projects/list";
+import type { Project } from "jsr:@omochice/redmine@2.3.1/throwable/projects/type";
 import { type ActionData, kindName } from "../@ddu-kinds/redmine_project.ts";
 
 type Context = {
