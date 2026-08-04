@@ -57,17 +57,25 @@ const callback: ActionCallback<Params> = async (args: {
 
   const lambda = add(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));
+    let content: ReturnType<typeof parse>;
     try {
-      const content = parse(lines.join("\n"));
-      await updateIssue(
-        item,
-        item.issue.id,
-        content,
-      );
+      content = parse(lines.join("\n"));
     } catch {
       await echoerr(
         denops,
         `Content is invalid toml format: ${lines.join("\n")}`,
+      );
+      return;
+    }
+    const result = await updateIssue(
+      item,
+      item.issue.id,
+      content,
+    );
+    if (result.isErr()) {
+      await echoerr(
+        denops,
+        `Failed to update issue #${item.issue.id}: ${result.error}`,
       );
     }
   });

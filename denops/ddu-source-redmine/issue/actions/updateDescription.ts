@@ -7,6 +7,7 @@ import {
 import type { Denops } from "jsr:@denops/std@8.2.0";
 import * as fn from "jsr:@denops/std@8.2.0/function";
 import { define } from "jsr:@denops/std@8.2.0/autocmd";
+import { echoerr } from "jsr:@denops/std@8.2.0/helper";
 import { batch } from "jsr:@denops/std@8.2.0/batch";
 import { add } from "jsr:@denops/std@8.2.0/lambda";
 import { expr } from "jsr:@denops/std@8.2.0/eval";
@@ -68,11 +69,17 @@ const callback: ActionCallback<Params> = async (args: {
       assert(lines, is.ArrayOf(is.String));
       const { attrs, body } = extractYaml(lines.join("\n").trim());
       assert(attrs, is.ObjectOf({ title: as.Optional(is.String) }));
-      await updateIssue(
+      const result = await updateIssue(
         item,
         item.issue.id,
         { subject: attrs.title ?? item.issue.subject, description: body },
       );
+      if (result.isErr()) {
+        await echoerr(
+          d,
+          `Failed to update issue #${item.issue.id}: ${result.error}`,
+        );
+      }
     });
 
     const command = getEditCommand(actionParams, kindParams);

@@ -70,15 +70,23 @@ const callback: ActionCallback<Params> = async (args: {
     await modified.setBuffer(d, bufnr, false);
     const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
+      let note: Note;
       try {
         const { attrs, body } = extractYaml<NoteOption>(lines.join("\n"));
-        const note = {
+        note = {
           notes: body.trim(),
           private_notes: attrs.private_notes ?? false,
         } satisfies Note;
-        await update(item, item.issue.id, note);
       } catch {
         await echoerr(d, `Content is invalid format: ${lines.join("\n")}`);
+        return;
+      }
+      const result = await update(item, item.issue.id, note);
+      if (result.isErr()) {
+        await echoerr(
+          d,
+          `Failed to add a note to issue #${item.issue.id}: ${result.error}`,
+        );
       }
     });
 
