@@ -13,7 +13,7 @@ import { add } from "jsr:@denops/std@8.2.0/lambda";
 import { expr } from "jsr:@denops/std@8.2.0/eval";
 import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
-import { fromThrowable } from "npm:neverthrow@8.2.0";
+import { fromThrowable, ResultAsync } from "npm:neverthrow@8.2.0";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { updateIssue } from "../../redmine.ts";
 import { isItem, type Params } from "../type.ts";
@@ -42,7 +42,7 @@ const callback: ActionCallback<Params> = async (args: {
     fragment: `${item.issue.id}`,
   });
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
-  try {
+  const prepared = await ResultAsync.fromThrowable(async () => {
     await fn.setbufline(
       denops,
       bufnr,
@@ -51,7 +51,8 @@ const callback: ActionCallback<Params> = async (args: {
     );
     await filetype.setBuffer(denops, bufnr, "toml");
     await modified.setBuffer(denops, bufnr, false);
-  } catch {
+  })();
+  if (prepared.isErr()) {
     echoerr(denops, "Convert Error: the issue cannot convert to toml format");
     return ActionFlags.None;
   }
