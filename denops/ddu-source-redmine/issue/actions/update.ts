@@ -42,18 +42,19 @@ const callback: ActionCallback<Params> = async (args: {
     fragment: `${item.issue.id}`,
   });
   const bufnr = await prepareUnwritableBuffer(denops, bufname);
-  const prepared = await ResultAsync.fromThrowable(async () => {
-    await fn.setbufline(
-      denops,
-      bufnr,
-      1,
-      stringify(item.issue).split(/\r?\n/),
-    );
-    await filetype.setBuffer(denops, bufnr, "toml");
-    await modified.setBuffer(denops, bufnr, false);
-  })();
+  const fillBuffer = ResultAsync.fromThrowable(
+    async (lines: string[]) => {
+      await fn.setbufline(denops, bufnr, 1, lines);
+      await filetype.setBuffer(denops, bufnr, "toml");
+      await modified.setBuffer(denops, bufnr, false);
+    },
+    () => `Failed to prepare the buffer for issue #${item.issue.id}`,
+  );
+  const prepared = await fromThrowable(() => stringify(item.issue))()
+    .mapErr(() => "Convert Error: the issue cannot convert to toml format")
+    .asyncAndThen((toml) => fillBuffer(toml.split(/\r?\n/)));
   if (prepared.isErr()) {
-    echoerr(denops, "Convert Error: the issue cannot convert to toml format");
+    await echoerr(denops, prepared.error);
     return ActionFlags.None;
   }
 
