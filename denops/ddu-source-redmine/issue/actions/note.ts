@@ -15,6 +15,7 @@ import { add } from "jsr:@denops/std@8.2.0/lambda";
 import { expr } from "jsr:@denops/std@8.2.0/eval";
 import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
+import { fromThrowable } from "npm:neverthrow@8.2.0";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { updateIssue as update } from "../../redmine.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
@@ -70,24 +71,21 @@ const callback: ActionCallback<Params> = async (args: {
     await modified.setBuffer(d, bufnr, false);
     const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
-      let note: Note;
-      try {
-        const { attrs, body } = extractYaml<NoteOption>(lines.join("\n"));
-        note = {
-          notes: body.trim(),
-          private_notes: attrs.private_notes ?? false,
-        } satisfies Note;
-      } catch {
-        await echoerr(d, `Content is invalid format: ${lines.join("\n")}`);
-        return;
-      }
-      const result = await update(item, item.issue.id, note);
-      if (result.isErr()) {
-        await echoerr(
-          d,
-          `Failed to add a note to issue #${item.issue.id}: ${result.error}`,
-        );
-      }
+      const text = lines.join("\n");
+      await fromThrowable(() => extractYaml<NoteOption>(text))()
+        .map(({ attrs, body }) =>
+          ({
+            notes: body.trim(),
+            private_notes: attrs.private_notes ?? false,
+          }) satisfies Note
+        )
+        .mapErr(() => `Content is invalid format: ${text}`)
+        .asyncAndThen((note) =>
+          update(item, item.issue.id, note).mapErr((cause) =>
+            `Failed to add a note to issue #${item.issue.id}: ${cause}`
+          )
+        )
+        .match(() => {}, (message) => echoerr(d, message));
     });
 
     const command = getEditCommand(actionParams, kindParams);

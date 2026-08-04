@@ -13,6 +13,7 @@ import { add } from "jsr:@denops/std@8.2.0/lambda";
 import { expr } from "jsr:@denops/std@8.2.0/eval";
 import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
+import { fromThrowable } from "npm:neverthrow@8.2.0";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { updateIssue } from "../../redmine.ts";
 import { isItem, type Params } from "../type.ts";
@@ -57,27 +58,15 @@ const callback: ActionCallback<Params> = async (args: {
 
   const lambda = add(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));
-    let content: ReturnType<typeof parse>;
-    try {
-      content = parse(lines.join("\n"));
-    } catch {
-      await echoerr(
-        denops,
-        `Content is invalid toml format: ${lines.join("\n")}`,
-      );
-      return;
-    }
-    const result = await updateIssue(
-      item,
-      item.issue.id,
-      content,
-    );
-    if (result.isErr()) {
-      await echoerr(
-        denops,
-        `Failed to update issue #${item.issue.id}: ${result.error}`,
-      );
-    }
+    const text = lines.join("\n");
+    await fromThrowable(() => parse(text))()
+      .mapErr(() => `Content is invalid toml format: ${text}`)
+      .asyncAndThen((content) =>
+        updateIssue(item, item.issue.id, content).mapErr((cause) =>
+          `Failed to update issue #${item.issue.id}: ${cause}`
+        )
+      )
+      .match(() => {}, (message) => echoerr(denops, message));
   });
 
   const command = getEditCommand(actionParams, kindParams);
