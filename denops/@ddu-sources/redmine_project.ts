@@ -5,8 +5,7 @@ import {
 } from "jsr:@shougo/ddu-vim@11.3.0/types";
 import { BaseSource } from "jsr:@shougo/ddu-vim@11.3.0/source";
 import type { Denops } from "jsr:@denops/std@8.2.0";
-import { fetchList } from "jsr:@omochice/redmine@2.3.1/result/projects/list";
-import type { Project } from "jsr:@omochice/redmine@2.3.1/throwable/projects/type";
+import { listProjects, type Project } from "../ddu-source-redmine/redmine.ts";
 import { type ActionData, kindName } from "../@ddu-kinds/redmine_project.ts";
 
 type Context = {
@@ -80,7 +79,7 @@ export class Source extends BaseSource<Params> {
 type ProjectMap = Map<string, Project[]>;
 
 async function fetchProjectMap(ctx: Context): Promise<ProjectMap> {
-  const result = await fetchList(ctx);
+  const result = await listProjects(ctx);
   if (result.isErr()) {
     throw new Error("Failed to fetch projects", { cause: result.error });
   }

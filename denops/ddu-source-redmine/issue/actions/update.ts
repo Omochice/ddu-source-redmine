@@ -14,7 +14,7 @@ import { expr } from "jsr:@denops/std@8.2.0/eval";
 import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update as updateIssue } from "jsr:@omochice/redmine@2.3.1/result/issues/update";
+import { updateIssue } from "../../redmine.ts";
 import { isItem, type Params } from "../type.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
@@ -57,17 +57,25 @@ const callback: ActionCallback<Params> = async (args: {
 
   const lambda = add(denops, async (lines: unknown) => {
     assert(lines, is.ArrayOf(is.String));
+    let content: ReturnType<typeof parse>;
     try {
-      const content = parse(lines.join("\n"));
-      await updateIssue(
-        item,
-        item.issue.id,
-        content,
-      );
+      content = parse(lines.join("\n"));
     } catch {
       await echoerr(
         denops,
         `Content is invalid toml format: ${lines.join("\n")}`,
+      );
+      return;
+    }
+    const result = await updateIssue(
+      item,
+      item.issue.id,
+      content,
+    );
+    if (result.isErr()) {
+      await echoerr(
+        denops,
+        `Failed to update issue #${item.issue.id}: ${result.error}`,
       );
     }
   });

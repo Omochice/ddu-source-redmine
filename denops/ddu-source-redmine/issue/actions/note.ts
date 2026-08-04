@@ -16,7 +16,7 @@ import { expr } from "jsr:@denops/std@8.2.0/eval";
 import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update } from "jsr:@omochice/redmine@2.3.1/result/issues/update";
+import { updateIssue as update } from "../../redmine.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { isItem, type Params } from "../type.ts";
 import { getEditCommand } from "../getEditCommand.ts";
@@ -70,15 +70,23 @@ const callback: ActionCallback<Params> = async (args: {
     await modified.setBuffer(d, bufnr, false);
     const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
+      let note: Note;
       try {
         const { attrs, body } = extractYaml<NoteOption>(lines.join("\n"));
-        const note = {
+        note = {
           notes: body.trim(),
           private_notes: attrs.private_notes ?? false,
         } satisfies Note;
-        await update(item, item.issue.id, note);
       } catch {
         await echoerr(d, `Content is invalid format: ${lines.join("\n")}`);
+        return;
+      }
+      const result = await update(item, item.issue.id, note);
+      if (result.isErr()) {
+        await echoerr(
+          d,
+          `Failed to add a note to issue #${item.issue.id}: ${result.error}`,
+        );
       }
     });
 

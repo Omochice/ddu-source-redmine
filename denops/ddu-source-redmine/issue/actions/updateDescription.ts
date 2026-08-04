@@ -7,6 +7,7 @@ import {
 import type { Denops } from "jsr:@denops/std@8.2.0";
 import * as fn from "jsr:@denops/std@8.2.0/function";
 import { define } from "jsr:@denops/std@8.2.0/autocmd";
+import { echoerr } from "jsr:@denops/std@8.2.0/helper";
 import { batch } from "jsr:@denops/std@8.2.0/batch";
 import { add } from "jsr:@denops/std@8.2.0/lambda";
 import { expr } from "jsr:@denops/std@8.2.0/eval";
@@ -15,7 +16,7 @@ import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { stringify } from "jsr:@std/yaml@1.2.0";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { update as updateIssue } from "jsr:@omochice/redmine@2.3.1/result/issues/update";
+import { updateIssue } from "../../redmine.ts";
 import { isItem, type Params } from "../type.ts";
 import { as, assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
@@ -68,11 +69,17 @@ const callback: ActionCallback<Params> = async (args: {
       assert(lines, is.ArrayOf(is.String));
       const { attrs, body } = extractYaml(lines.join("\n").trim());
       assert(attrs, is.ObjectOf({ title: as.Optional(is.String) }));
-      await updateIssue(
+      const result = await updateIssue(
         item,
         item.issue.id,
         { subject: attrs.title ?? item.issue.subject, description: body },
       );
+      if (result.isErr()) {
+        await echoerr(
+          d,
+          `Failed to update issue #${item.issue.id}: ${result.error}`,
+        );
+      }
     });
 
     const command = getEditCommand(actionParams, kindParams);
