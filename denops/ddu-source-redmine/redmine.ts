@@ -4,7 +4,10 @@ import { update as updateIssueOrThrow } from "jsr:@omochice/redmine@3.2.0/issues
 import type { ListIssueQuery } from "jsr:@omochice/redmine@3.2.0/issues/type";
 import { list as listProjectsOrThrow } from "jsr:@omochice/redmine@3.2.0/projects/list";
 
-export type { Issue } from "jsr:@omochice/redmine@3.2.0/issues/type";
+export type {
+  Issue,
+  UpdateIssueQuery,
+} from "jsr:@omochice/redmine@3.2.0/issues/type";
 export type { Project } from "jsr:@omochice/redmine@3.2.0/projects/type";
 
 type Context = Parameters<typeof listIssuesOrThrow>[0];
