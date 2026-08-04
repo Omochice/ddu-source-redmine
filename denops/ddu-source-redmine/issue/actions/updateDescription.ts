@@ -15,11 +15,14 @@ import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { stringify } from "jsr:@std/yaml@1.2.0";
 import { extractYaml } from "jsr:@std/front-matter@1.0.9";
+import { err, fromThrowable, ok } from "npm:neverthrow@8.2.0";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
 import { updateIssue } from "../../redmine.ts";
 import { isItem, type Params } from "../type.ts";
 import { as, assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { getEditCommand } from "../getEditCommand.ts";
+
+const isAttrs = is.ObjectOf({ title: as.Optional(is.String) });
 
 const callback: ActionCallback<Params> = async (args: {
   denops: Denops;
@@ -67,19 +70,23 @@ const callback: ActionCallback<Params> = async (args: {
 
     const lambda = add(d, async (lines: unknown) => {
       assert(lines, is.ArrayOf(is.String));
-      const { attrs, body } = extractYaml(lines.join("\n").trim());
-      assert(attrs, is.ObjectOf({ title: as.Optional(is.String) }));
-      const result = await updateIssue(
-        item,
-        item.issue.id,
-        { subject: attrs.title ?? item.issue.subject, description: body },
-      );
-      if (result.isErr()) {
-        await echoerr(
-          d,
-          `Failed to update issue #${item.issue.id}: ${result.error}`,
-        );
-      }
+      const text = lines.join("\n").trim();
+      await fromThrowable(() => extractYaml(text))()
+        .mapErr(() => `Content is invalid format: ${text}`)
+        .andThen(({ attrs, body }) =>
+          isAttrs(attrs)
+            ? ok({
+              subject: attrs.title ?? item.issue.subject,
+              description: body,
+            })
+            : err(`Title in front matter must be a string: ${text}`)
+        )
+        .asyncAndThen((issue) =>
+          updateIssue(item, item.issue.id, issue).mapErr((cause) =>
+            `Failed to update issue #${item.issue.id}: ${cause}`
+          )
+        )
+        .match(() => {}, (message) => echoerr(d, message));
     });
 
     const command = getEditCommand(actionParams, kindParams);
