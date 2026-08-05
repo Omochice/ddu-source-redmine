@@ -62,7 +62,7 @@ const callback: ActionCallback<Params> = async (args: {
     assert(lines, is.ArrayOf(is.String));
     const text = lines.join("\n");
     await fromThrowable(() => parse(text))()
-      .mapErr(() => `Content is invalid toml format: ${text}`)
+      .mapErr((cause) => `Content is invalid toml format: ${cause}`)
       .asyncAndThen((content) =>
         updateIssue(item, item.issue.id, content).mapErr((cause) =>
           `Failed to update issue #${item.issue.id}: ${cause}`

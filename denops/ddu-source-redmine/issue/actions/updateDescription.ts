@@ -72,14 +72,14 @@ const callback: ActionCallback<Params> = async (args: {
       assert(lines, is.ArrayOf(is.String));
       const text = lines.join("\n").trim();
       await fromThrowable(() => extractYaml(text))()
-        .mapErr(() => `Content is invalid format: ${text}`)
+        .mapErr((cause) => `Content is invalid format: ${cause}`)
         .andThen(({ attrs, body }) =>
           isAttrs(attrs)
             ? ok({
               subject: attrs.title ?? item.issue.subject,
               description: body,
             })
-            : err(`Title in front matter must be a string: ${text}`)
+            : err("Title in front matter must be a string")
         )
         .asyncAndThen((issue) =>
           updateIssue(item, item.issue.id, issue).mapErr((cause) =>
