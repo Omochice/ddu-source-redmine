@@ -75,7 +75,7 @@ const callback: ActionCallback<Params> = async (args: {
             privateNotes: attrs.private_notes ?? false,
           }) satisfies UpdateIssueQuery
         )
-        .mapErr(() => `Content is invalid format: ${text}`)
+        .mapErr((cause) => `Content is invalid format: ${cause}`)
         .asyncAndThen((note) =>
           update(item, item.issue.id, note).mapErr((cause) =>
             `Failed to add a note to issue #${item.issue.id}: ${cause}`
