@@ -17,7 +17,7 @@ import { format } from "jsr:@denops/std@8.2.0/bufname";
 import { filetype, modified } from "jsr:@denops/std@8.2.0/option";
 import { fromThrowable } from "npm:neverthrow@8.2.0";
 import { prepareUnwritableBuffer } from "../prepareBuffer.ts";
-import { updateIssue as update } from "../../redmine.ts";
+import { updateIssue as update, type UpdateIssueQuery } from "../../redmine.ts";
 import { assert, is } from "jsr:@core/unknownutil@4.3.0";
 import { isItem, type Params } from "../type.ts";
 import { getEditCommand } from "../getEditCommand.ts";
@@ -25,10 +25,6 @@ import { getEditCommand } from "../getEditCommand.ts";
 type NoteOption = {
   private_notes?: boolean;
 };
-
-type Note = {
-  notes: string;
-} & NoteOption;
 
 const callback: ActionCallback<Params> = async (args: {
   denops: Denops;
@@ -76,8 +72,8 @@ const callback: ActionCallback<Params> = async (args: {
         .map(({ attrs, body }) =>
           ({
             notes: body.trim(),
-            private_notes: attrs.private_notes ?? false,
-          }) satisfies Note
+            privateNotes: attrs.private_notes ?? false,
+          }) satisfies UpdateIssueQuery
         )
         .mapErr(() => `Content is invalid format: ${text}`)
         .asyncAndThen((note) =>
