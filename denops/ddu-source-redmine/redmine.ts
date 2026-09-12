@@ -1,14 +1,14 @@
 import { ResultAsync } from "npm:neverthrow@8.2.0";
-import { list as listIssuesOrThrow } from "jsr:@omochice/redmine@3.2.0/issues/list";
-import { update as updateIssueOrThrow } from "jsr:@omochice/redmine@3.2.0/issues/update";
-import type { ListIssueQuery } from "jsr:@omochice/redmine@3.2.0/issues/type";
-import { list as listProjectsOrThrow } from "jsr:@omochice/redmine@3.2.0/projects/list";
+import { list as listIssuesOrThrow } from "jsr:@omochice/redmine@3.3.0/issues/list";
+import { update as updateIssueOrThrow } from "jsr:@omochice/redmine@3.3.0/issues/update";
+import type { ListIssueQuery } from "jsr:@omochice/redmine@3.3.0/issues/type";
+import { list as listProjectsOrThrow } from "jsr:@omochice/redmine@3.3.0/projects/list";
 
 export type {
   Issue,
   UpdateIssueQuery,
-} from "jsr:@omochice/redmine@3.2.0/issues/type";
-export type { Project } from "jsr:@omochice/redmine@3.2.0/projects/type";
+} from "jsr:@omochice/redmine@3.3.0/issues/type";
+export type { Project } from "jsr:@omochice/redmine@3.3.0/projects/type";
 
 type Context = Parameters<typeof listIssuesOrThrow>[0];
 
